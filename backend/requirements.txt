@@ -1,0 +1,13 @@
+# Production dependencies
+fastapi==0.109.2
+uvicorn==0.27.1
+python-dotenv==1.0.0
+qdrant-client==1.7.3
+google-generativeai==0.4.1
+psycopg2-binary>=2.9.0
+sqlalchemy==2.0.23
+pydantic==2.5.3
+langchain==0.2.0
+langchain-community==0.2.0
+sentence-transformers>=3.0.0
+torch>=2.1.0

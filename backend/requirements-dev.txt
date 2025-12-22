@@ -1,0 +1,5 @@
+# Development dependencies for the RAG Chatbot Backend
+ruff==0.2.2
+pytest==7.4.4
+black==23.12.1
+mypy==1.8.0

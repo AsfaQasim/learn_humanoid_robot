@@ -6,6 +6,10 @@ This website contains the Physical AI & Humanoid Robotics Textbook, built using 
 
 This textbook covers the fundamental concepts of AI-powered humanoid robotics, with a focus on ROS 2 as the "nervous system" of robotic systems. The first module covers core ROS 2 concepts including nodes, topics, services, Python integration, URDF modeling, and advanced ROS 2 features.
 
+## Chatbot Integration
+
+A RAG chatbot has been integrated into the frontend to answer questions about the textbook content.
+
 ## Installation
 
 ```bash

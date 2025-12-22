@@ -2,61 +2,97 @@ import clsx from 'clsx';
 import Heading from '@theme/Heading';
 import styles from './styles.module.css';
 
-const FeatureList = [
-  {
-    title: 'Easy to Use',
-    Svg: require('@site/static/img/undraw_docusaurus_mountain.svg').default,
-    description: (
-      <>
-        Docusaurus was designed from the ground up to be easily installed and
-        used to get your website up and running quickly.
-      </>
-    ),
-  },
-  {
-    title: 'Focus on What Matters',
-    Svg: require('@site/static/img/undraw_docusaurus_tree.svg').default,
-    description: (
-      <>
-        Docusaurus lets you focus on your docs, and we&apos;ll do the chores. Go
-        ahead and move your docs into the <code>docs</code> directory.
-      </>
-    ),
-  },
-  {
-    title: 'Powered by React',
-    Svg: require('@site/static/img/undraw_docusaurus_react.svg').default,
-    description: (
-      <>
-        Extend or customize your website layout by reusing React. Docusaurus can
-        be extended while reusing the same header and footer.
-      </>
-    ),
-  },
-];
 
-function Feature({Svg, title, description}) {
+
+//  feature card components
+
+function FeatureCard({ title, description, icon }) {
   return (
     <div className={clsx('col col--4')}>
-      <div className="text--center">
-        <Svg className={styles.featureSvg} role="img" />
-      </div>
-      <div className="text--center padding-horiz--md">
-        <Heading as="h3">{title}</Heading>
-        <p>{description}</p>
+      <div className={clsx(styles.featureCard, 'padding-horiz--md')}>
+        <div className="text--center">
+          <div className={styles.iconContainer}>
+            <img src={icon} alt={title} className={styles.icon} />
+          </div>
+        </div>
+        <div className="text--center">
+          <Heading as="h3" className={styles.featureHeading}>{title}</Heading>
+          <p className={styles.featureDescription}>{description}</p>
+        </div>
       </div>
     </div>
   );
 }
 
+// Section Component for bottom row with optional icon
+function Section({ title, content, icon, isRight = false }) {
+  return (
+    <div className={clsx('col', isRight ? 'col--6' : 'col--6')}>
+      <div className={clsx(styles.section, 'padding-horiz--md')}>
+        {icon && (
+          <div className="text--center">
+            <div className={styles.iconContainer}>
+              <img src={icon} alt={title} className={styles.icon} />
+            </div>
+          </div>
+        )}
+        <Heading as="h3" className={styles.sectionTitle}>{title}</Heading>
+        <div className={styles.sectionContent}>{content}</div>
+      </div>
+    </div>
+  );
+}
+
+//  export default function
+
 export default function HomepageFeatures() {
   return (
     <section className={styles.features}>
       <div className="container">
+        {/* Section 1: Top Row - 3 Feature Cards */}
         <div className="row">
-          {FeatureList.map((props, idx) => (
-            <Feature key={idx} {...props} />
-          ))}
+          <FeatureCard
+            title="Comprehensive Content"
+            description="Complete 13-week course covering Physical AI, ROS 2, Digital Twins, NVIDIA Isaac, Humanoid Development, and Conversational Robotics."
+            icon="data:image/png;base64,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" // replace with actual base64 or URL
+          />
+          <FeatureCard
+            title="Interactive Chatbot"
+            description="Ask questions about the textbook content with our RAG-powered chatbot. Get answers with citations, or ask about specific selected text."
+            icon="data:image/png;base64,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" // replace with actual base64 or URL
+          />
+          <FeatureCard
+            title="Hands-On Labs"
+            description="Each chapter includes practical labs, exercises, and checkpoint quizzes to reinforce your learning."
+            icon="data:image/png;base64,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" // replace with actual base64 or URL
+          />
+        </div>
+
+        {/* Section 2: Bottom Row - 2 Wide Sections */}
+        <div className="row" style={{marginTop: '2rem'}}>
+          <Section
+            title="Learning Path"
+            icon ="data:image/png;base64,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" // icon for Learning Path
+            content={
+              <ul className={styles.bulletList}>
+                <li>Foundations (Weeks 1–2)</li>
+                <li>ROS 2 Nervous System (Weeks 3–5)</li>
+                <li>Digital Twin (Weeks 6–7)</li>
+              </ul>
+            }
+          />
+          <Section
+            title="Quick Start"
+            icon="data:image/png;base64,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" // icon for Quick Start
+            content={
+              <ol className={styles.numberedList}>
+                <li>Read the Preface to understand how to use this book</li>
+                <li>Check the Hardware Tracks for setup requirements</li>
+                <li>Start with Foundations</li>
+              </ol>
+            }
+            isRight={true}
+          />
         </div>
       </div>
     </section>

@@ -4,20 +4,163 @@
  */
 
 .heroBanner {
-  padding: 4rem 0;
+  padding: 6rem 0;
   text-align: center;
   position: relative;
   overflow: hidden;
-}
-
-@media screen and (max-width: 996px) {
-  .heroBanner {
-    padding: 2rem;
-  }
-}
-
-.buttons {
+  background: linear-gradient(135deg, var(--ifm-color-gray-0) 0%, var(--ifm-color-gray-100) 100%);
+  background-size: 400% 400%;
+  animation: gradientShift 15s ease infinite;
+  clip-path: polygon(0 0, 100% 0, 100% 90%, 0 100%);
+  min-height: 80vh;
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+[data-theme='dark'] .heroBanner {
+  background: linear-gradient(135deg, var(--ifm-color-gray-800) 0%, var(--ifm-color-gray-900) 100%);
+  background-size: 400% 400%;
+  animation: gradientShift 15s ease infinite;
+}
+
+/* Gradient animation for dynamic feel */
+@keyframes gradientShift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* Glassmorphism container for content */
+.heroContentContainer {
+  position: relative;
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 3rem;
+  background: var(--ifm-glass-bg);
+  backdrop-filter: saturate(180%) blur(20px);
+  -webkit-backdrop-filter: saturate(180%) blur(20px);
+  border-radius: 24px;
+  border: 1px solid var(--ifm-glass-border);
+  box-shadow: var(--ifm-glass-shadow);
+  z-index: 2;
+  transform: translateY(0);
+  transition: transform 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.6s ease;
+}
+
+.heroContentContainer:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.25);
+}
+
+/* Hero content styling */
+.heroTitle {
+  font-size: clamp(2.5rem, 5vw, 4rem);
+  font-weight: 800;
+  line-height: 1.1;
+  margin-bottom: 1.5rem;
+  background: linear-gradient(90deg, var(--ifm-color-primary), var(--ifm-color-secondary));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  letter-spacing: -0.03em;
+  position: relative;
+  display: inline-block;
+}
+
+.heroTitle::after {
+  content: '';
+  position: absolute;
+  bottom: -12px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80px;
+  height: 4px;
+  background: linear-gradient(90deg, var(--ifm-color-primary), var(--ifm-color-secondary));
+  border-radius: 2px;
+}
+
+.heroSubtitle {
+  font-size: clamp(1.2rem, 2.5vw, 1.3rem);
+  font-weight: 400;
+  margin-bottom: 2.5rem;
+  color: var(--ifm-color-gray-700);
+  opacity: 0.95;
+  line-height: 1.7;
+  max-width: 650px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+[data-theme='dark'] .heroSubtitle {
+  color: var(--ifm-color-gray-300);
+}
+
+/* Buttons container */
+.buttons {
+  display: flex;
+  gap: 1.5rem;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+/* Button styling for hero section */
+.button--lg {
+  padding: 1rem 2rem;
+  font-size: 1.1rem;
+  border-radius: 12px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.button--primary {
+  background: linear-gradient(90deg, var(--ifm-color-primary), var(--ifm-color-accent));
+  border: none;
+  color: var(--ifm-color-secondary);
+}
+
+.button--primary:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+  background: linear-gradient(90deg, var(--ifm-color-primary-dark), var(--ifm-color-accent-dark));
+  color: var(--ifm-color-secondary);
+}
+
+.button--secondary {
+  background: transparent;
+  border: 2px solid var(--ifm-color-primary);
+  color: var(--ifm-color-primary);
+}
+
+.button--secondary:hover {
+  background: var(--ifm-color-primary);
+  color: var(--ifm-color-secondary);
+  transform: translateY(-3px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+}
+
+/* Responsive adjustments */
+@media screen and (max-width: 996px) {
+  .heroBanner {
+    padding: 4rem 1rem;
+    clip-path: polygon(0 0, 100% 0, 100% 90%, 0 100%);
+  }
+
+  .heroContentContainer {
+    padding: 1.5rem;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .heroBanner {
+    padding: 3rem 1rem;
+    clip-path: polygon(0 0, 100% 0, 100% 95%, 0 100%);
+  }
+
+  .buttons {
+    flex-direction: column;
+  }
 }

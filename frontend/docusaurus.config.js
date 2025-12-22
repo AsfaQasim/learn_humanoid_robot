@@ -93,7 +93,7 @@ const config = {
         title: 'Physical AI & Humanoid Robotics',
         logo: {
           alt: 'Robotics Textbook Logo',
-          src: 'img/logo.svg',
+          src: 'https://t3.ftcdn.net/jpg/06/49/25/74/360_F_649257417_A4uoBSvvDmaiUXt5rGhalUZVpopuE2nZ.jpg',
         },
         items: [
           {

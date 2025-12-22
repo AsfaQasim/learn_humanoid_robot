@@ -47,5 +47,6 @@
   },
   "engines": {
     "node": ">=20.0"
-  }
+  },
+  "proxy": "http://localhost:8000"
 }

@@ -12,16 +12,23 @@ function HomepageHeader() {
   return (
     <header className={clsx('hero hero--primary', styles.heroBanner)}>
       <div className="container">
-        <Heading as="h1" className="hero__title">
-          {siteConfig.title}
-        </Heading>
-        <p className="hero__subtitle">{siteConfig.tagline}</p>
-        <div className={styles.buttons}>
-          <Link
-            className="button button--secondary button--lg"
-            to="/docs/intro">
-            Docusaurus Tutorial - 5min ⏱️
-          </Link>
+        <div className={styles.heroContentContainer}>
+          <Heading as="h1" className={clsx('hero__title', styles.heroTitle)}>
+            {siteConfig.title}
+          </Heading>
+          <p className={clsx('hero__subtitle', styles.heroSubtitle)}>{siteConfig.tagline}</p>
+          <div className={styles.buttons}>
+            <Link
+              className="button button--primary button--lg"
+              to="/docs/intro">
+              Explore Robotics Fundamentals - 5min ⏱️
+            </Link>
+            <Link
+              className="button button--secondary button--lg"
+              to="/docs/robotics-module-one/intro">
+              Start Learning ROS 2
+            </Link>
+          </div>
         </div>
       </div>
     </header>
