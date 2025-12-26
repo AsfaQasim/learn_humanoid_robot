@@ -1,5 +1,5 @@
 """
-Configuration management for the RAG ingestion pipeline.
+Configuration management for the RAG retrieval pipeline.
 Handles environment variables and application settings.
 """
 
@@ -15,7 +15,7 @@ load_dotenv()
 class Config:
     """Configuration class to manage application settings."""
 
-    # Cohere API Configuration
+    # Cohere Configuration
     COHERE_API_KEY: str = os.getenv("COHERE_API_KEY", "")
 
     # Qdrant Configuration

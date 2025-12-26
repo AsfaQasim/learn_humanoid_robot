@@ -1,0 +1,101 @@
+# API Contracts: Documentation Ingestion Pipeline
+
+## Ingestion Service Contract
+
+### Endpoints
+
+#### POST /ingest
+**Description**: Ingest documentation from provided URLs
+**Request**:
+```json
+{
+  "urls": ["https://example.com/docs/page1", "https://example.com/docs/page2"],
+  "options": {
+    "chunk_size": 512,
+    "overlap": 50,
+    "preserve_metadata": true
+  }
+}
+```
+
+**Response**:
+```json
+{
+  "job_id": "uuid-string",
+  "status": "processing|completed|failed",
+  "total_documents": 2,
+  "processed_count": 0,
+  "estimated_completion": "timestamp"
+}
+```
+
+#### GET /ingest/{job_id}
+**Description**: Get status of an ingestion job
+**Response**:
+```json
+{
+  "job_id": "uuid-string",
+  "status": "processing|completed|failed",
+  "total_documents": 2,
+  "processed_count": 1,
+  "completed_at": "timestamp",
+  "error": "error-message-if-any"
+}
+```
+
+#### POST /embed
+**Description**: Generate embeddings for text chunks
+**Request**:
+```json
+{
+  "chunks": [
+    {
+      "id": "chunk-uuid",
+      "content": "text content here",
+      "metadata": {
+        "source_url": "https://example.com",
+        "section": "section-title",
+        "heading": "heading-title"
+      }
+    }
+  ]
+}
+```
+
+**Response**:
+```json
+{
+  "status": "success|failed",
+  "processed_chunks": 1,
+  "failed_chunks": 0,
+  "vectors_stored": 1
+}
+```
+
+### Data Schema
+
+#### DocumentChunk
+```json
+{
+  "id": "string",
+  "content": "string",
+  "source_url": "string",
+  "section": "string",
+  "heading": "string",
+  "metadata": "object",
+  "embedding": "array[float]"
+}
+```
+
+#### IngestionJob
+```json
+{
+  "job_id": "string",
+  "status": "string",
+  "total_documents": "integer",
+  "processed_count": "integer",
+  "created_at": "timestamp",
+  "completed_at": "timestamp",
+  "error": "string"
+}
+```

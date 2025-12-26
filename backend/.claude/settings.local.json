@@ -1,7 +1,0 @@
-{
-  "permissions": {
-    "allow": [
-      "Bash(python fetch_qdrant_data.py)"
-    ]
-  }
-}

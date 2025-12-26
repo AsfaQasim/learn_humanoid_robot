@@ -1,0 +1,113 @@
+# API Contracts: RAG Data Retrieval and Pipeline Validation
+
+## Retrieval Service Contract
+
+### Endpoints
+
+#### POST /retrieve
+**Description**: Perform semantic search against stored embeddings
+**Request**:
+```json
+{
+  "query": "text to search for",
+  "top_k": 5,
+  "filters": {
+    "source_url": "optional filter by source URL",
+    "section": "optional filter by section"
+  }
+}
+```
+
+**Response**:
+```json
+{
+  "query": "text to search for",
+  "results": [
+    {
+      "id": "chunk-uuid",
+      "content": "retrieved content text",
+      "relevance_score": 0.85,
+      "source_url": "source document URL",
+      "section": "document section",
+      "heading": "document heading",
+      "metadata": {
+        "additional": "metadata fields"
+      }
+    }
+  ],
+  "retrieved_at": "timestamp",
+  "total_results": 5
+}
+```
+
+#### POST /validate
+**Description**: Validate retrieval pipeline and embedding compatibility
+**Request**:
+```json
+{
+  "test_queries": ["query 1", "query 2", "query 3"],
+  "expected_sources": ["source1", "source2"],
+  "validation_criteria": {
+    "min_relevance_score": 0.7,
+    "top_k": 5
+  }
+}
+```
+
+**Response**:
+```json
+{
+  "validation_passed": true,
+  "results": [
+    {
+      "query": "query 1",
+      "retrieved_chunks": 5,
+      "avg_relevance_score": 0.82,
+      "relevant_sources_found": true,
+      "issues": []
+    }
+  ],
+  "overall_accuracy": 0.89,
+  "validated_at": "timestamp"
+}
+```
+
+### Data Schema
+
+#### QueryRequest
+```json
+{
+  "query_text": "string",
+  "top_k": "integer",
+  "filters": "object",
+  "metadata_fields": "array[string]"
+}
+```
+
+#### RetrievedChunk
+```json
+{
+  "id": "string",
+  "content": "string",
+  "relevance_score": "float",
+  "source_url": "string",
+  "section": "string",
+  "heading": "string",
+  "chunk_metadata": "object",
+  "retrieved_at": "timestamp"
+}
+```
+
+#### ValidationResult
+```json
+{
+  "id": "string",
+  "query_text": "string",
+  "retrieved_chunks_count": "integer",
+  "avg_relevance_score": "float",
+  "validation_passed": "boolean",
+  "issues_found": "array[string]",
+  "validation_timestamp": "timestamp",
+  "validation_metrics": "object"
+}
+```

@@ -1,0 +1,108 @@
+# OpenAPI Contract: RAG Chatbot Agent API
+
+# NOTE: This contract is provided for completeness, though API endpoints are not being built per feature constraints
+# The agent functionality will be available as a Python module/class rather than an API
+
+openapi: 3.0.0
+info:
+  title: RAG Chatbot Agent API
+  description: API for the RAG Chatbot Agent with Qdrant retrieval integration
+  version: 1.0.0
+
+paths:
+  /agent/query:
+    post:
+      summary: Query the RAG agent
+      description: Send a query to the RAG agent which will retrieve relevant information from Qdrant and generate a grounded response
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AgentRequest'
+      responses:
+        '200':
+          description: Successful response from the agent
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AgentResponse'
+        '400':
+          description: Invalid request
+        '500':
+          description: Internal server error
+
+components:
+  schemas:
+    AgentRequest:
+      type: object
+      required:
+        - query
+      properties:
+        query:
+          type: string
+          description: The user's query/question
+          example: "What are the fundamental principles of robotics?"
+        top_k:
+          type: integer
+          description: Number of chunks to retrieve (optional, default: 5)
+          example: 5
+
+    AgentResponse:
+      type: object
+      required:
+        - response
+        - retrieved_chunks
+      properties:
+        response:
+          type: string
+          description: The agent's response to the query
+          example: "The fundamental principles of robotics include..."
+        retrieved_chunks:
+          type: array
+          items:
+            $ref: '#/components/schemas/RetrievedChunk'
+          description: List of chunks used to generate the response
+        confidence:
+          type: number
+          format: float
+          description: Confidence score for the response (0-1)
+          example: 0.85
+        sources:
+          type: array
+          items:
+            type: string
+          description: List of source identifiers used
+
+    RetrievedChunk:
+      type: object
+      required:
+        - id
+        - content
+        - relevance_score
+      properties:
+        id:
+          type: string
+          description: Unique identifier for the chunk
+          example: "chunk_12345"
+        content:
+          type: string
+          description: The text content of the chunk
+          example: "Robotics is an interdisciplinary field..."
+        relevance_score:
+          type: number
+          format: float
+          description: Score indicating relevance to the query (0-1)
+          example: 0.78
+        source_url:
+          type: string
+          description: URL where the content originated
+          example: "https://example.com/book/chapter1"
+        section:
+          type: string
+          description: Section identifier from the original document
+          example: "Chapter 1"
+        heading:
+          type: string
+          description: Heading or title of the section
+          example: "Introduction to Robotics"

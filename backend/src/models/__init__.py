@@ -1,1 +1,3 @@
-from .chat import Base, ChatSession, UserQuery, ChatbotResponse
+"""
+Data models for the RAG ingestion pipeline.
+"""
