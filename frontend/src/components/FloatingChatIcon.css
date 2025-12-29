@@ -1,99 +1,144 @@
+/* Modern floating chat icon with premium design */
 .floating-chat-icon {
   position: fixed;
-  bottom: 20px;
-  right: 20px;
-  width: 60px;
-  height: 60px;
+  bottom: 24px;
+  right: 24px;
+  width: 64px;
+  height: 64px;
   border-radius: 50%;
-  background-color: #007bff;
+  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
   color: white;
-  border: none;
-  font-size: 24px;
+  border: 2px solid rgba(255, 255, 255, 0.2);
   cursor: pointer;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-  z-index: 1000;
+  box-shadow:
+    0 8px 32px rgba(0, 0, 0, 0.3),
+    0 0 0 0 rgba(26, 26, 46, 0.4);
+  z-index: 1050;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: all 0.3s ease;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
 }
 
 .floating-chat-icon:hover {
-  transform: scale(1.1);
-  background-color: #0056b3;
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+  transform: scale(1.08) translateY(-4px);
+  background: linear-gradient(135deg, #1f1f3a 0%, #1a1a2e 100%);
+  box-shadow:
+    0 12px 40px rgba(0, 0, 0, 0.4),
+    0 0 0 0 rgba(26, 26, 46, 0.4);
+  border-color: rgba(255, 255, 255, 0.3);
 }
 
+.floating-chat-icon:active {
+  transform: scale(0.95) translateY(-2px);
+}
+
+.floating-chat-icon svg {
+  transition: transform 0.3s ease;
+}
+
+.floating-chat-icon:hover svg {
+  transform: scale(1.05);
+}
+
+/* Chat overlay */
 .chat-overlay {
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: rgba(0, 0, 0, 0.5);
-  z-index: 1001;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  z-index: 1060;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 20px;
+  padding: 24px;
+  animation: fadeIn 0.25s ease-out;
 }
 
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Chat window with premium glass effect */
 .chat-window {
   width: 100%;
-  max-width: 500px;
-  max-height: 80vh;
-  background: white;
-  border-radius: 12px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  max-width: 520px;
+  max-height: 85vh;
+  background: rgba(255, 255, 255, 0.98);
+  border-radius: 20px;
+  box-shadow:
+    0 25px 80px rgba(0, 0, 0, 0.3),
+    0 0 0 1px rgba(0, 0, 0, 0.05);
   display: flex;
   flex-direction: column;
   overflow: hidden;
-  animation: slideIn 0.3s ease-out;
+  animation: slideIn 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
 @keyframes slideIn {
   from {
     opacity: 0;
-    transform: translateY(20px);
+    transform: translateY(30px) scale(0.95);
   }
   to {
     opacity: 1;
-    transform: translateY(0);
+    transform: translateY(0) scale(1);
   }
 }
 
+/* Chat header with gradient */
 .chat-header {
-  padding: 16px 20px;
-  background-color: #007bff;
+  padding: 20px 24px;
+  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
   color: white;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .chat-header span {
-  font-weight: 500;
-  font-size: 1.1em;
+  font-weight: 600;
+  font-size: 1.1rem;
+  letter-spacing: 0.025em;
 }
 
 .close-btn {
-  background: none;
-  border: none;
+  background: rgba(255, 255, 255, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.2);
   color: white;
-  font-size: 1.5em;
+  font-size: 1.5rem;
   cursor: pointer;
   padding: 0;
-  width: 30px;
-  height: 30px;
+  width: 36px;
+  height: 36px;
   display: flex;
   align-items: center;
   justify-content: center;
   border-radius: 50%;
-  transition: background-color 0.2s ease;
+  transition: all 0.25s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
 }
 
 .close-btn:hover {
-  background-color: rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.25);
+  transform: rotate(90deg) scale(1.1);
+}
+
+.close-btn:active {
+  transform: rotate(90deg) scale(0.95);
 }
 
 .chat-content {
@@ -106,15 +151,37 @@
 @media (max-width: 768px) {
   .chat-window {
     max-width: 95vw;
-    max-height: 90vh;
-    margin: 20px;
+    max-height: 92vh;
+    margin: 16px;
+    border-radius: 16px;
   }
 
   .floating-chat-icon {
-    width: 50px;
-    height: 50px;
-    font-size: 20px;
-    bottom: 15px;
-    right: 15px;
+    width: 56px;
+    height: 56px;
+    bottom: 20px;
+    right: 20px;
+  }
+
+  .chat-overlay {
+    padding: 16px;
+  }
+
+  .chat-header {
+    padding: 16px 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .floating-chat-icon {
+    width: 52px;
+    height: 52px;
+    bottom: 16px;
+    right: 16px;
+  }
+
+  .chat-window {
+    max-height: 95vh;
+    border-radius: 16px;
   }
 }

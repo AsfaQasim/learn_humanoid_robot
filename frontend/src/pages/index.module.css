@@ -3,25 +3,27 @@
  * and scoped locally.
  */
 
+/* Premium Hero Section with Book-Style Design */
 .heroBanner {
-  padding: 6rem 0;
+  padding: 6rem 0 4rem 0;
   text-align: center;
   position: relative;
   overflow: hidden;
-  background: linear-gradient(135deg, var(--ifm-color-gray-0) 0%, var(--ifm-color-gray-100) 100%);
+  background: linear-gradient(180deg, #ffffff 0%, #f8f8fc 100%);
   background-size: 400% 400%;
-  animation: gradientShift 15s ease infinite;
-  clip-path: polygon(0 0, 100% 0, 100% 90%, 0 100%);
-  min-height: 80vh;
+  animation: gradientShift 20s ease infinite;
+  clip-path: polygon(0 0, 100% 0, 100% 92%, 0 100%);
+  min-height: 85vh;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
 [data-theme='dark'] .heroBanner {
-  background: linear-gradient(135deg, var(--ifm-color-gray-800) 0%, var(--ifm-color-gray-900) 100%);
+  background: linear-gradient(180deg, #1a1a2e 0%, #0f0f1a 100%);
   background-size: 400% 400%;
-  animation: gradientShift 15s ease infinite;
+  animation: gradientShift 20s ease infinite;
+  clip-path: polygon(0 0, 100% 0, 100% 92%, 0 100%);
 }
 
 /* Gradient animation for dynamic feel */
@@ -36,7 +38,7 @@
   position: relative;
   max-width: 800px;
   margin: 0 auto;
-  padding: 3rem;
+  padding: 3.5rem 3rem;
   background: var(--ifm-glass-bg);
   backdrop-filter: saturate(180%) blur(20px);
   -webkit-backdrop-filter: saturate(180%) blur(20px);
@@ -48,9 +50,27 @@
   transition: transform 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.6s ease;
 }
 
+.heroContentContainer::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border-radius: 24px;
+  background: linear-gradient(135deg, var(--ifm-color-primary), var(--ifm-color-accent));
+  opacity: 0;
+  z-index: -1;
+  transition: opacity 0.6s ease;
+}
+
+.heroContentContainer:hover::before {
+  opacity: 0.03;
+}
+
 .heroContentContainer:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.25);
+  transform: translateY(-8px);
+  box-shadow: 0 30px 60px rgba(26, 26, 46, 0.2);
 }
 
 /* Hero content styling */
@@ -59,7 +79,7 @@
   font-weight: 800;
   line-height: 1.1;
   margin-bottom: 1.5rem;
-  background: linear-gradient(90deg, var(--ifm-color-primary), var(--ifm-color-secondary));
+  background: linear-gradient(90deg, var(--ifm-color-primary) 0%, var(--ifm-color-accent) 100%);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
@@ -71,17 +91,17 @@
 .heroTitle::after {
   content: '';
   position: absolute;
-  bottom: -12px;
+  bottom: -16px;
   left: 50%;
   transform: translateX(-50%);
   width: 80px;
   height: 4px;
-  background: linear-gradient(90deg, var(--ifm-color-primary), var(--ifm-color-secondary));
+  background: linear-gradient(90deg, var(--ifm-color-primary), var(--ifm-color-accent));
   border-radius: 2px;
 }
 
 .heroSubtitle {
-  font-size: clamp(1.2rem, 2.5vw, 1.3rem);
+  font-size: clamp(1.1rem, 2vw, 1.25rem);
   font-weight: 400;
   margin-bottom: 2.5rem;
   color: var(--ifm-color-gray-700);
@@ -99,7 +119,7 @@
 /* Buttons container */
 .buttons {
   display: flex;
-  gap: 1.5rem;
+  gap: 1.25rem;
   align-items: center;
   justify-content: center;
   flex-wrap: wrap;
@@ -108,24 +128,25 @@
 /* Button styling for hero section */
 .button--lg {
   padding: 1rem 2rem;
-  font-size: 1.1rem;
+  font-size: 1.05rem;
   border-radius: 12px;
   font-weight: 600;
-  letter-spacing: 0.5px;
-  transition: all 0.3s ease;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  letter-spacing: 0.025em;
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  box-shadow: 0 6px 20px rgba(26, 26, 46, 0.15);
+  min-height: 52px;
 }
 
 .button--primary {
-  background: linear-gradient(90deg, var(--ifm-color-primary), var(--ifm-color-accent));
+  background: linear-gradient(135deg, var(--ifm-color-primary) 0%, var(--ifm-color-accent) 100%);
   border: none;
   color: var(--ifm-color-secondary);
 }
 
 .button--primary:hover {
   transform: translateY(-3px);
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
-  background: linear-gradient(90deg, var(--ifm-color-primary-dark), var(--ifm-color-accent-dark));
+  box-shadow: 0 10px 30px rgba(26, 26, 46, 0.25);
+  background: linear-gradient(135deg, var(--ifm-color-primary-dark) 0%, var(--ifm-color-accent-dark) 100%);
   color: var(--ifm-color-secondary);
 }
 
@@ -139,18 +160,29 @@
   background: var(--ifm-color-primary);
   color: var(--ifm-color-secondary);
   transform: translateY(-3px);
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+  box-shadow: 0 10px 30px rgba(26, 26, 46, 0.25);
+}
+
+[data-theme='dark'] .button--secondary {
+  color: var(--ifm-color-primary-light);
+  border-color: var(--ifm-color-primary-light);
+}
+
+[data-theme='dark'] .button--secondary:hover {
+  color: var(--ifm-color-secondary);
+  background: var(--ifm-color-primary-light);
 }
 
 /* Responsive adjustments */
 @media screen and (max-width: 996px) {
   .heroBanner {
     padding: 4rem 1rem;
-    clip-path: polygon(0 0, 100% 0, 100% 90%, 0 100%);
+    clip-path: polygon(0 0, 100% 0, 100% 92%, 0 100%);
+    min-height: 70vh;
   }
 
   .heroContentContainer {
-    padding: 1.5rem;
+    padding: 2.5rem 2rem;
   }
 }
 
@@ -158,9 +190,64 @@
   .heroBanner {
     padding: 3rem 1rem;
     clip-path: polygon(0 0, 100% 0, 100% 95%, 0 100%);
+    min-height: 60vh;
+  }
+
+  .heroTitle {
+    font-size: clamp(2rem, 4vw, 2.5rem);
+  }
+
+  .heroTitle::after {
+    width: 60px;
+    height: 3px;
+    bottom: -12px;
   }
 
   .buttons {
     flex-direction: column;
+    gap: 1rem;
+    width: 100%;
+  }
+
+  .button--lg {
+    width: 100%;
+    font-size: 1rem;
+    padding: 0.875rem 1.5rem;
+    min-height: 48px;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .heroBanner {
+    padding: 2.5rem 0.75rem;
+    min-height: 50vh;
+  }
+
+  .heroContentContainer {
+    padding: 2rem 1.5rem;
+    border-radius: 20px;
+  }
+
+  .heroTitle {
+    font-size: 1.75rem;
+  }
+
+  .heroSubtitle {
+    font-size: 1rem;
+  margin-bottom: 2rem;
+  max-width: 100%;
+  }
+
+  .heroTitle::after {
+    display: none;
+  }
+
+  .buttons {
+    padding: 0 5rem;
+  }
+
+  .button--lg {
+    font-size: 0.95rem;
+    padding: 0.75rem 1.25rem;
   }
 }
