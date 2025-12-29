@@ -1,0 +1,11 @@
+{
+  "name": "root",
+  "private": true,
+  "version": "0.0.0",
+  "engines": {
+    "node": "18.x"
+  },
+  "scripts": {
+    "build": "cd frontend && npm run build"
+  }
+}

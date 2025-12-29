@@ -17,6 +17,9 @@ links:
   pr: null
 files:
   - frontend/.nvmrc
+  - .nvmrc (root)
+  - .node-version (root)
+  - package.json (root)
   - frontend/package.json
   - frontend/docusaurus.config.js
   - frontend/src/pages/index.js
