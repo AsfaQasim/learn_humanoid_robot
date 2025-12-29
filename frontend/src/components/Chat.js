@@ -75,7 +75,7 @@ const Chat = () => {
             // Add bot response to chat with unique id
             const botMessage = {
                 id: Date.now() + 1,
-                text: data.response_text,
+                text: data.answer || data.response_text || "No response received",
                 sender: 'bot',
                 response_id: data.response_id,
                 sources: data.sources || []
@@ -131,11 +131,15 @@ const Chat = () => {
                                 {msg.sources && msg.sources.length > 0 && (
                                     <div className="sources-section">
                                         <details className="sources-details">
-                                            <summary>Sources ({msg.sources.length})</summary>
+                                            <summary>Sources ({msg.sources.filter(s => s && typeof s === 'string' && !s.includes('chunk_id')).length})</summary>
                                             <ul className="sources-list">
-                                                {msg.sources.map((source, idx) => (
-                                                    <li key={idx} className="source-item">{source.substring(0, 100)}...</li>
-                                                ))}
+                                                {msg.sources
+                                                    .filter(source => source && typeof source === 'string' && !source.includes('chunk_id') && !source.startsWith('{'))
+                                                    .map((source, idx) => (
+                                                        <li key={idx} className="source-item">
+                                                            {source.length > 150 ? source.substring(0, 150) + '...' : source}
+                                                        </li>
+                                                    ))}
                                             </ul>
                                         </details>
                                     </div>

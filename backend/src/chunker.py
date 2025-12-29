@@ -5,7 +5,6 @@ Handles splitting text into appropriately sized chunks with overlap.
 
 from typing import List, Dict, Tuple
 import re
-from transformers import AutoTokenizer
 from .models.data_models import DocumentChunk
 from .config import config
 from .utils import sanitize_text
@@ -26,7 +25,6 @@ class TextChunker:
         """
         self.chunk_size = chunk_size or config.CHUNK_SIZE
         self.overlap = overlap or config.CHUNK_OVERLAP
-        self.tokenizer = AutoTokenizer.from_pretrained("bert-base-uncased")
 
     def chunk_text(self, text: str, source_url: str, section: str, heading: str,
                    metadata: Dict = None) -> List[DocumentChunk]:
@@ -83,7 +81,7 @@ class TextChunker:
 
     def _split_text_with_overlap(self, text: str) -> List[str]:
         """
-        Split text into chunks with overlap using token-based approach.
+        Split text into chunks with overlap using character-based approach.
 
         Args:
             text: Text to split
@@ -96,43 +94,43 @@ class TextChunker:
 
         chunks = []
         current_chunk = ""
-        current_tokens = 0
+        current_chars = 0
 
         for paragraph in paragraphs:
-            # Tokenize the paragraph to estimate token count
-            paragraph_tokens = len(self.tokenizer.encode(paragraph))
+            # Estimate character count for the paragraph
+            paragraph_chars = len(paragraph)
 
             # If adding this paragraph would exceed chunk size
-            if current_tokens + paragraph_tokens > self.chunk_size and current_chunk:
+            if current_chars + paragraph_chars > self.chunk_size and current_chunk:
                 chunks.append(current_chunk.strip())
 
                 # Add overlap by taking part of the previous chunk
                 if self.overlap > 0:
-                    # Calculate overlap based on characters for simplicity
-                    overlap_start = max(0, len(current_chunk) - self.overlap * 10)  # Rough approximation
+                    # Calculate overlap based on characters
+                    overlap_start = max(0, len(current_chunk) - self.overlap)
                     current_chunk = current_chunk[overlap_start:] + paragraph
-                    current_tokens = len(self.tokenizer.encode(current_chunk))
+                    current_chars = len(current_chunk)
                 else:
                     current_chunk = paragraph
-                    current_tokens = paragraph_tokens
+                    current_chars = paragraph_chars
             else:
                 # Add paragraph to current chunk
                 if current_chunk:
                     current_chunk += "\n\n" + paragraph
                 else:
                     current_chunk = paragraph
-                current_tokens += paragraph_tokens
+                current_chars += paragraph_chars
 
             # If current chunk is getting too large, force a split
-            if current_tokens > self.chunk_size:
+            if current_chars > self.chunk_size:
                 # Split the current chunk into smaller pieces
-                sub_chunks = self._force_split_chunk(current_chunk, current_tokens)
+                sub_chunks = self._force_split_chunk(current_chunk, current_chars)
                 for sub_chunk in sub_chunks[:-1]:  # Add all but the last to chunks
                     chunks.append(sub_chunk)
 
                 # Keep the last sub-chunk as current for potential overlap
                 current_chunk = sub_chunks[-1] if sub_chunks else ""
-                current_tokens = len(self.tokenizer.encode(current_chunk))
+                current_chars = len(current_chunk)
 
         # Add the final chunk if it's not empty
         if current_chunk.strip():
@@ -162,19 +160,19 @@ class TextChunker:
 
         return cleaned_paragraphs
 
-    def _force_split_chunk(self, chunk: str, token_count: int) -> List[str]:
+    def _force_split_chunk(self, chunk: str, char_count: int) -> List[str]:
         """
         Force split a chunk that's too large into smaller pieces.
 
         Args:
             chunk: Chunk to split
-            token_count: Estimated token count of the chunk
+            char_count: Character count of the chunk
 
         Returns:
             List of smaller chunks
         """
         # Calculate target size for sub-chunks
-        num_sub_chunks = max(2, token_count // self.chunk_size + 1)
+        num_sub_chunks = max(2, char_count // self.chunk_size + 1)
         target_size = len(chunk) // num_sub_chunks
 
         sub_chunks = []
