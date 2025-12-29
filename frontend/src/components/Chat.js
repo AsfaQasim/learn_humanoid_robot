@@ -1,5 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import './Chat.css';
+const BACKEND_URL = "https://asfaqasim-my-chatbot.hf.space";
+
 
 const Chat = () => {
     const [messages, setMessages] = useState([]);
@@ -53,7 +55,8 @@ const Chat = () => {
         setError(null);
 
         try {
-            const response = await fetch('http://localhost:8000/chat', {
+            const response = await fetch(`${BACKEND_URL}/chat`
+, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -100,7 +103,8 @@ const Chat = () => {
 
     const handleFeedback = async (responseId, feedback) => {
         try {
-            const response = await fetch('http://localhost:8000/feedback', {
+            const response = await fetch(`${BACKEND_URL}/feedback`
+, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
