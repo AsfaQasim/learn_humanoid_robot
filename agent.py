@@ -103,7 +103,8 @@ def retrieve_docs(query: str, top_k: int = 5):
         results = qdrant.search(
             collection_name=HARDCODED_COLLECTION_NAME,
             query_vector=vector,
-            limit=top_k
+            limit=top_k,
+            with_payload=True
         )
 
         docs = []

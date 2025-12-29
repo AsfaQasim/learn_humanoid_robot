@@ -218,7 +218,8 @@ class VectorStorage:
                 collection_name=self.collection_name,
                 query_vector=query_vector,
                 query_filter=search_filter,
-                limit=limit
+                limit=limit,
+                with_payload=True
             )
 
             # Format results

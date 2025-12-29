@@ -14,6 +14,7 @@ load_dotenv()
 import cohere
 import google.generativeai as genai
 from qdrant_client import QdrantClient
+from qdrant_compat import safe_qdrant_search
 
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 logger = logging.getLogger(__name__)
@@ -64,6 +65,9 @@ qdrant: Optional[QdrantClient] = None
 available_collections: Set[str] = set()
 
 try:
+    logger.info("=" * 60)
+    logger.info("INITIALIZING QDRANT WITH COMPATIBILITY LAYER - VERSION 2.0")
+    logger.info("=" * 60)
     qdrant = QdrantClient(
         url=QDRANT_URL,
         api_key=QDRANT_API_KEY,
@@ -164,10 +168,13 @@ def retrieve_docs(query: str, top_k: int = 5, collection_name: str = DEFAULT_COL
     try:
         vector = embed_text(query)
 
-        results = qdrant.search(
+        # Use compatibility layer to handle different Qdrant client versions
+        results = safe_qdrant_search(
+            client=qdrant,
             collection_name=safe_collection,
             query_vector=vector,
-            limit=top_k
+            limit=top_k,
+            with_payload=True
         )
 
         docs = []
@@ -284,7 +291,9 @@ but please acknowledge that you're not using specific context from the knowledge
             }
 
         except Exception as e:
+            import traceback
             logger.error(f"Error processing query: {e}")
+            logger.error(f"Traceback:\n{traceback.format_exc()}")
             return {
                 "response": f"Error processing your request: {str(e)}",
                 "retrieved_chunks": [],
