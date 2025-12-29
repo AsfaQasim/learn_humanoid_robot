@@ -1,0 +1,7 @@
+{
+  "buildCommand": "cd frontend && npm run build",
+  "outputDirectory": "frontend/build",
+  "framework": null,
+  "installCommand": "cd frontend && npm install --legacy-peer-deps",
+  "nodeVersion": "18"
+}
