@@ -1,13 +1,13 @@
 ---
-slug: what-is-physical-ai
 title: What is Physical AI?
-description: Understanding the intersection of artificial intelligence and physical robotics
-authors: [asfaqasim]
-tags: [physical-ai, robotics, ai]
+slug: what-is-physical-ai
+authors: [asifa]
+tags: [ai, physical-ai, robotics]
 date: 2025-01-01
 ---
 
-import physicalAi from '/img/physical-ai-robot.png';
+
+
 
 # What is Physical AI?
 
