@@ -17,7 +17,7 @@ export default function Home() {
         background: 'linear-gradient(135deg, #ffffff 0%, #f8fafc 100%)',
         overflow: 'hidden',
       }}>
-
+{/* robot */}
         {/* Robot - Fixed in hero section only */}
         <main style={{
           position: 'absolute',
