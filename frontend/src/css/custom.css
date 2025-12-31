@@ -774,3 +774,205 @@ html {
   opacity: 1;
   transform: translateY(0);
 }
+
+/* ============================================
+   Hero Robot Component Styles
+   ============================================ */
+
+/* Hero Robot Container */
+.hero-robot-container {
+  width: 100%;
+  height: 100%;
+  min-height: 400px;
+  border-radius: 12px;
+  overflow: hidden;
+  position: relative;
+}
+
+.hero-robot-container canvas {
+  display: block;
+  cursor: grab;
+}
+
+.hero-robot-container canvas:active {
+  cursor: grabbing;
+}
+
+/* ============================================
+   Navbar Login Button
+   ============================================ */
+
+.navbar-login-button {
+  background: var(--ifm-color-primary);
+  color: var(--ifm-color-secondary);
+  border-radius: 8px;
+  padding: 0.6rem 1.25rem;
+  font-weight: 500;
+  font-size: 0.95rem;
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  border: none;
+  cursor: pointer;
+}
+
+.navbar-login-button:hover {
+  background: var(--ifm-color-primary-dark);
+  color: var(--ifm-color-secondary);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(26, 26, 46, 0.2);
+  text-decoration: none;
+}
+
+[data-theme='dark'] .navbar-login-button {
+  background: var(--ifm-color-primary-light);
+  color: var(--ifm-color-gray-900);
+}
+
+[data-theme='dark'] .navbar-login-button:hover {
+  background: var(--ifm-color-primary-lighter);
+}
+
+/* ============================================
+   Homepage Hero Styles
+   ============================================ */
+
+.hero-robot-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 3rem;
+  align-items: center;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+.hero-robot-content {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.hero-robot-title {
+  font-size: 3rem;
+  font-weight: 700;
+  line-height: 1.2;
+  color: var(--ifm-heading-color, #1a1a1a);
+  margin: 0;
+}
+
+.hero-robot-subtitle {
+  font-size: 1.25rem;
+  font-weight: 400;
+  line-height: 1.6;
+  color: var(--ifm-color-content-secondary, #666666);
+  margin: 0;
+}
+
+.hero-robot-buttons {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-top: 1rem;
+}
+
+.hero-robot-button {
+  border-radius: 6px;
+  padding: 0.75rem 1.5rem;
+  font-weight: 600;
+  transition: all 0.2s ease;
+}
+
+.hero-robot-button-primary {
+  --ifm-button-background-color: #1a1a1a;
+  --ifm-button-background-color-hover: #333333;
+  --ifm-button-color: #ffffff;
+}
+
+.hero-robot-button-primary:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.hero-robot-button-secondary {
+  --ifm-button-background-color: transparent;
+  --ifm-button-background-color-hover: rgba(0, 0, 0, 0.05);
+  --ifm-button-color: #1a1a1a;
+  --ifm-button-border-color: #1a1a1a;
+  border: 2px solid #1a1a1a;
+}
+
+.hero-robot-button-secondary:hover {
+  background: rgba(0, 0, 0, 0.05);
+  transform: translateY(-1px);
+}
+
+.hero-robot-scene {
+  width: 100%;
+  height: 400px;
+  position: relative;
+  border-radius: 12px;
+  overflow: hidden;
+  background: linear-gradient(
+    135deg,
+    #f8f9fa 0%,
+    #ffffff 50%,
+    #f0f4f8 100%
+  );
+}
+
+/* ============================================
+   Responsive Design
+   ============================================ */
+
+@media (max-width: 996px) {
+  .hero-robot-grid {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+
+  .hero-robot-content {
+    text-align: center;
+    align-items: center;
+  }
+
+  .hero-robot-title {
+    font-size: 2.25rem;
+  }
+
+  .hero-robot-subtitle {
+    font-size: 1.1rem;
+  }
+
+  .hero-robot-buttons {
+    justify-content: center;
+  }
+
+  .hero-robot-scene {
+    height: 350px;
+    order: -1;
+  }
+}
+
+@media (max-width: 576px) {
+  .hero-robot-title {
+    font-size: 1.75rem;
+  }
+
+  .hero-robot-subtitle {
+    font-size: 1rem;
+  }
+
+  .hero-robot-buttons {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .hero-robot-buttons a {
+    width: 100%;
+    text-align: center;
+  }
+
+  .hero-robot-scene {
+    height: 300px;
+  }
+}
+

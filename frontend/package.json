@@ -22,11 +22,14 @@
     "@docusaurus/plugin-content-docs": "^3.9.2",
     "@docusaurus/preset-classic": "3.9.2",
     "@mdx-js/react": "^3.0.0",
+    "@react-three/drei": "^9.120.0",
+    "@react-three/fiber": "^8.17.0",
     "clsx": "^2.0.0",
     "prism-react-renderer": "^2.3.0",
     "puppeteer": "^24.32.1",
     "react": "^19.0.0",
-    "react-dom": "^19.0.0"
+    "react-dom": "^19.0.0",
+    "three": "^0.170.0"
   },
   "devDependencies": {
     "@docusaurus/module-type-aliases": "3.9.2",

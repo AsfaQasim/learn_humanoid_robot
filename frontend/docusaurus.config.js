@@ -101,17 +101,17 @@ const config = {
             type: 'docSidebar',
             sidebarId: 'tutorialSidebar',
             position: 'left',
-            label: 'Tutorials',
+            label: 'Course Content',
           },
           {
-            type: 'docSidebar',
-            sidebarId: 'roboticsModuleSidebar', // The sidebar for our robotics module
+            to: '/docs/robotics-module-one/index',
+            label: 'Physical AI & Humanoid Robotics',
             position: 'left',
-            label: 'Robotics Module 1',
           },
+          {to: '/about', label: 'About', position: 'left'},
           {to: '/blog', label: 'Blog', position: 'left'},
           {
-            href: 'https://github.com/facebook/docusaurus',
+            href: 'https://github.com/AsfaQasim?tab=repositories',
             label: 'GitHub',
             position: 'right',
           },

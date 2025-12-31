@@ -1,0 +1,201 @@
+/**
+ * HomepageHero Module CSS
+ *
+ * Video-matched styling for premium robotics hero section
+ * Two-column layout with dark gradient overlay for text visibility
+ */
+
+.heroSection {
+  padding: 0;
+  background: transparent;
+  border-bottom: none;
+  overflow: hidden;
+}
+
+.container {
+  max-width: 100% !important;
+  margin: 0;
+  padding: 0;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 1.1fr;
+  gap: 0;
+  min-height: 560px;
+  position: relative;
+}
+
+/* Left Column - Text Content with Dark Gradient */
+.content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 1.25rem;
+  padding: 4rem 5%;
+  position: relative;
+  /* VIDEO MATCHED: Dark gradient for text visibility */
+  background: linear-gradient(
+    135deg,
+    rgba(10, 12, 30, 0.98) 0%,
+    rgba(10, 12, 30, 0.92) 40%,
+    rgba(10, 12, 30, 0.75) 70%,
+    rgba(10, 12, 30, 0.4) 100%
+  );
+  z-index: 2;
+}
+
+/* Right Column - Robot Scene */
+.robotScene {
+  width: 100%;
+  height: 100%;
+  min-height: 560px;
+  position: relative;
+  /* VIDEO MATCHED: Dark to light gradient */
+  background: linear-gradient(
+    135deg,
+    rgba(10, 12, 30, 0.5) 0%,
+    rgba(20, 25, 50, 0.3) 50%,
+    rgba(40, 50, 80, 0.15) 100%
+  );
+}
+
+/* Typography - VIDEO MATCHED */
+.title {
+  font-size: clamp(2.2rem, 4.5vw, 3.2rem);
+  font-weight: 700;
+  line-height: 1.1;
+  color: #ffffff;
+  margin: 0;
+  /* Slight negative letter spacing for premium feel */
+  letter-spacing: -0.02em;
+  text-shadow: 0 2px 20px rgba(0, 0, 0, 0.3);
+}
+
+.subtitle {
+  font-size: clamp(1rem, 1.8vw, 1.2rem);
+  font-weight: 400;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.85);
+  margin: 0;
+  max-width: 90%;
+  text-shadow: 0 1px 10px rgba(0, 0, 0, 0.2);
+}
+
+/* Buttons */
+.buttons {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-top: 0.5rem;
+}
+
+.ctaButton {
+  --ifm-button-background-color: #00b4d8;
+  --ifm-button-background-color-hover: #0096c7;
+  --ifm-button-color: #ffffff;
+  border-radius: 6px;
+  padding: 0.7rem 1.5rem;
+  font-weight: 600;
+  font-size: 0.95rem;
+  transition: all 0.25s ease;
+  letter-spacing: 0.01em;
+}
+
+.ctaButton:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0, 180, 216, 0.3);
+}
+
+.secondaryButton {
+  --ifm-button-background-color: transparent;
+  --ifm-button-background-color-hover: rgba(255, 255, 255, 0.1);
+  --ifm-button-color: #ffffff;
+  --ifm-button-border-color: rgba(255, 255, 255, 0.4);
+  border-radius: 6px;
+  padding: 0.7rem 1.5rem;
+  font-weight: 600;
+  font-size: 0.95rem;
+  border: 1.5px solid rgba(255, 255, 255, 0.4);
+  transition: all 0.25s ease;
+  letter-spacing: 0.01em;
+}
+
+.secondaryButton:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.6);
+  transform: translateY(-2px);
+}
+
+/* Responsive Design */
+@media (max-width: 1200px) {
+  .grid {
+    grid-template-columns: 1fr 1fr;
+    min-height: 520px;
+  }
+
+  .robotScene {
+    min-height: 520px;
+  }
+}
+
+@media (max-width: 996px) {
+  .grid {
+    grid-template-columns: 1fr;
+    min-height: auto;
+  }
+
+  .content {
+    padding: 3rem 5%;
+    text-align: center;
+    align-items: center;
+    background: linear-gradient(
+      180deg,
+      rgba(10, 12, 30, 0.95) 0%,
+      rgba(15, 18, 40, 0.9) 60%,
+      rgba(10, 12, 30, 0.8) 100%
+    );
+  }
+
+  .subtitle {
+    max-width: 100%;
+  }
+
+  .buttons {
+    justify-content: center;
+  }
+
+  .robotScene {
+    min-height: 400px;
+    order: -1;
+  }
+}
+
+@media (max-width: 576px) {
+  .content {
+    padding: 2.5rem 1.5rem;
+  }
+
+  .title {
+    font-size: 1.8rem;
+  }
+
+  .subtitle {
+    font-size: 1rem;
+    color: rgba(255, 255, 255, 0.9);
+  }
+
+  .buttons {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .buttons a {
+    width: 100%;
+    text-align: center;
+  }
+
+  .robotScene {
+    min-height: 350px;
+  }
+}
