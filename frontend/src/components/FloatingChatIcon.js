@@ -44,22 +44,8 @@ const FloatingChatIcon = () => {
       )}
       {/* Always render floating icon to ensure it's persistent */}
       <button className="floating-chat-icon" onClick={toggleChat} aria-label="Open chat">
-        <svg width="32" height="32" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <defs>
-            <linearGradient id="robotGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" stop-color="#1a1a2e"/>
-              <stop offset="100%" stop-color="#16213e"/>
-            </linearGradient>
-          </defs>
-          <circle cx="24" cy="24" r="22" fill="url(#robotGradient)" opacity="0.12"/>
-          <rect x="12" y="20" width="24" height="20" rx="6" fill="currentColor"/>
-          <circle cx="18" cy="28" r="4" fill="white" opacity="0.9"/>
-          <circle cx="30" cy="28" r="4" fill="white" opacity="0.9"/>
-          <rect x="22" y="8" width="4" height="6" rx="1" fill="currentColor"/>
-          <rect x="26" y="42" width="12" height="3" rx="1.5" fill="currentColor"/>
-          <ellipse cx="16" cy="42" rx="4" ry="3" fill="currentColor" opacity="0.6"/>
-          <rect x="12" y="46" width="24" height="3" rx="1.5" fill="currentColor"/>
-          <circle cx="30" cy="46" r="3" fill="white" opacity="0.9"/>
+        <svg viewBox="0 0 24 24" width="32" height="32" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
         </svg>
       </button>
     </>
