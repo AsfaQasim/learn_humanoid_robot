@@ -1,7 +1,7 @@
 import React from 'react';
 import Layout from '@theme/Layout';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
-import Spline from '@splinetool/react-spline';
+import HeroRobot from '../components/HeroRobot/HeroRobot';
 
 export default function Home() {
   const { siteConfig } = useDocusaurusContext();
@@ -14,10 +14,9 @@ export default function Home() {
         height: '100vh',
         display: 'flex',
         alignItems: 'center',
-        background: 'linear-gradient(135deg, #ffffff 0%, #f8fafc 100%)',
+        background: 'linear-gradient(135deg, #0a0c1e 0%, #0f1228 50%, #1a1f3a 100%)',
         overflow: 'hidden',
       }}>
-{/* robot */}
         {/* Robot - Fixed in hero section only */}
         <main style={{
           position: 'absolute',
@@ -27,7 +26,7 @@ export default function Home() {
           height: '100%',
           zIndex: 1,
         }}>
-          <Spline scene="https://prod.spline.design/Q5uh6cPZMc0R5C17/scene.splinecode" />
+          <HeroRobot />
         </main>
 
         {/* Text & Buttons - Left Side */}
