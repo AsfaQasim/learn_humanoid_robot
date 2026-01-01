@@ -3,7 +3,7 @@ import Layout from '@theme/Layout';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import styles from './index.module.css';
 import Spline from '@splinetool/react-spline';
-
+//  loader
 const RobotLoader = () => (
   <div style={{
     position: 'absolute',
