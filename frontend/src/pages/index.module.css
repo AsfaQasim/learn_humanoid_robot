@@ -121,8 +121,9 @@
   display: flex;
   gap: 1.25rem;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
   flex-wrap: wrap;
+  margin-top: 2rem;
 }
 
 /* Button styling for hero section */
