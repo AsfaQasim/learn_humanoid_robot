@@ -1,5 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import * as THREE from 'three';
+import AILoader from '../AILoader/AILoader';
+import styles from '../AILoader/AILoader.module.css';
 
 /**
  * HeroRobot - Exact video reference match
@@ -9,6 +11,7 @@ import * as THREE from 'three';
 export default function HeroRobot() {
   const containerRef = useRef(null);
   const [isClient, setIsClient] = useState(false);
+  const [isReady, setIsReady] = useState(false);
 
   useEffect(() => {
     setIsClient(true);
@@ -312,6 +315,7 @@ export default function HeroRobot() {
     let currentRotationX = 0;
     let currentPosY = 0;
     let idleTime = 0;
+    let frameCount = 0;
 
     const handleMouseMove = (event) => {
       const rect = container.getBoundingClientRect();
@@ -353,6 +357,15 @@ export default function HeroRobot() {
       rightArm.rotation.z = -Math.sin(idleTime * 0.3) * 0.015;
 
       renderer.render(scene, camera);
+
+      // Signal ready after a few frames to ensure clean render
+      if (frameCount < 10) {
+        frameCount++;
+        if (frameCount === 5) {
+          setIsReady(true);
+        }
+      }
+
       requestAnimationFrame(animate);
     };
 
@@ -391,28 +404,39 @@ export default function HeroRobot() {
           background: 'linear-gradient(135deg, #0a0c1e 0%, #0f1228 50%, #1a1f3a 100%)',
         }}
       >
-        <div style={{ textAlign: 'center', color: '#666' }}>
-          <svg
-            width="40"
-            height="40"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="1.5"
-          >
-            <circle cx="12" cy="12" r="10" />
-            <path d="M12 6v6l4 2" />
-          </svg>
-        </div>
+        <AILoader isVisible={true} />
       </div>
     );
   }
 
   return (
     <div
-      ref={containerRef}
-      className="hero-robot-container"
-      style={{ width: '100%', height: '100%', minHeight: '450px' }}
-    />
+      style={{
+        position: 'relative',
+        width: '100%',
+        height: '100%',
+        minHeight: '450px',
+        overflow: 'hidden'
+      }}
+    >
+      <div
+        className={`${styles.loaderContainer} ${isReady ? styles.loaderHidden : ''}`}
+      >
+        <AILoader isVisible={true} />
+      </div>
+
+      <div
+        ref={containerRef}
+        className="hero-robot-container"
+        style={{
+          width: '100%',
+          height: '100%',
+          transition: 'opacity 1s cubic-bezier(0.4, 0, 0.2, 1), transform 1.2s cubic-bezier(0.4, 0, 0.2, 1)',
+          opacity: isReady ? 1 : 0,
+          transform: isReady ? 'scale(1)' : 'scale(1.1)',
+        }}
+      />
+    </div>
   );
 }
+

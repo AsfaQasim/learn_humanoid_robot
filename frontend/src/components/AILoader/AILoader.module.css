@@ -1,0 +1,126 @@
+.loaderContainer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  z-index: 10;
+  transition: opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1), transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.circleWrapper {
+  position: relative;
+  width: 120px;
+  height: 120px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 24px;
+}
+
+.outerCircle {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border: 2px solid rgba(0, 180, 216, 0.1);
+  border-top: 2px solid #00b4d8;
+  border-radius: 50%;
+  animation: rotate 2s linear infinite;
+  box-shadow: 0 0 15px rgba(0, 180, 216, 0.2);
+}
+
+.middleCircle {
+  position: absolute;
+  width: 75%;
+  height: 75%;
+  border: 1px solid rgba(0, 180, 216, 0.2);
+  border-bottom: 2px solid #00ffff;
+  border-radius: 50%;
+  animation: rotateCounter 3s linear infinite;
+}
+
+.innerCircle {
+  position: absolute;
+  width: 40%;
+  height: 40%;
+  background: radial-gradient(circle, rgba(0, 180, 216, 0.4) 0%, transparent 70%);
+  border-radius: 50%;
+  animation: pulse 2s ease-in-out infinite;
+  box-shadow: 0 0 20px rgba(0, 180, 216, 0.5);
+}
+
+.scanningLine {
+  position: absolute;
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, #00b4d8, transparent);
+  animation: scan 2s ease-in-out infinite;
+  opacity: 0.5;
+}
+
+.loaderText {
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  color: #00b4d8;
+  font-size: 0.9rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  text-shadow: 0 0 10px rgba(0, 180, 216, 0.3);
+}
+
+.dots {
+  display: flex;
+  gap: 4px;
+}
+
+.dot {
+  width: 4px;
+  height: 4px;
+  background-color: #00b4d8;
+  border-radius: 50%;
+  animation: dotPulse 1.5s infinite;
+}
+
+.dot:nth-child(2) { animation-delay: 0.2s; }
+.dot:nth-child(3) { animation-delay: 0.4s; }
+
+@keyframes rotate {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes rotateCounter {
+  from { transform: rotate(360deg); }
+  to { transform: rotate(0deg); }
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scale(0.8); opacity: 0.5; }
+  50% { transform: scale(1.1); opacity: 0.8; }
+}
+
+@keyframes scan {
+  0%, 100% { transform: translateY(-40px); opacity: 0; }
+  50% { transform: translateY(0); opacity: 0.5; }
+  100% { transform: translateY(40px); opacity: 0; }
+}
+
+@keyframes dotPulse {
+  0%, 100% { transform: scale(1); opacity: 0.4; }
+  50% { transform: scale(1.5); opacity: 1; }
+}
+
+/* Transitions */
+.loaderHidden {
+  opacity: 0;
+  transform: scale(0.9);
+  pointer-events: none;
+}
