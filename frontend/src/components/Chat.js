@@ -8,7 +8,8 @@ const USE_LOCAL_BACKEND = true;
 const LOCAL_BACKEND = "http://localhost:8000";
 const DEPLOYED_BACKEND = "https://asfaqasim-my-chatbot.hf.space";
 
-// Choose backend dynamically
+//  backend dynamically
+
 const BACKEND_URL =
     process.env.NODE_ENV === "development"
         ? "http://localhost:8000"
