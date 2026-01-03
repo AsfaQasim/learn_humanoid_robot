@@ -2,14 +2,18 @@ import React, { useState, useEffect, useRef } from 'react';
 import './Chat.css';
 
 // ⚡ Change this to true if testing locally
-const USE_LOCAL_BACKEND = true;  
+const USE_LOCAL_BACKEND = true;
 
 // Backend URLs
 const LOCAL_BACKEND = "http://localhost:8000";
 const DEPLOYED_BACKEND = "https://asfaqasim-my-chatbot.hf.space";
 
 // Choose backend dynamically
-const BACKEND_URL = USE_LOCAL_BACKEND ? LOCAL_BACKEND : DEPLOYED_BACKEND;
+const BACKEND_URL =
+    process.env.NODE_ENV === "development"
+        ? "http://localhost:8000"
+        : "https://asfaqasim-my-chatbot.hf.space";
+
 
 const Chat = () => {
     const [messages, setMessages] = useState([]);
@@ -51,11 +55,11 @@ const Chat = () => {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
-                    session_id: '123',
+                    session_id: "123",
                     query_text: input,
-                    selected_text: selectedText,
-                    collection_name: 'test_ingestion_custom'
+                    collection_name: "my_embed"
                 }),
+
             });
 
             if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
@@ -113,7 +117,7 @@ const Chat = () => {
                                                     <li key={idx} className="source-item">
                                                         {source.length > 150 ? source.substring(0, 150) + '...' : source}
                                                     </li>
-                                            ))}
+                                                ))}
                                         </ul>
                                     </details>
                                 </div>
