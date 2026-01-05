@@ -72,39 +72,78 @@ export default function Home() {
           padding: '4rem 2rem',
           maxWidth: '650px',
           marginLeft: '5%',
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'center',
+          height: '100%',
         }}>
-          <h1 style={{
-            fontSize: 'clamp(2.5rem, 7vw, 4.5rem)',
-            fontWeight: 700,
-            lineHeight: 1.1,
-            color: '#0f172a',
-            margin: '0 0 1rem',
-            letterSpacing: '-0.02em',
-          }}>
-            Physical AI & Humanoid Robotics
-          </h1>
-          <p style={{
-            fontSize: 'clamp(1.1rem, 2.5vw, 1.25rem)',
-            fontWeight: 400,
-            lineHeight: 1.8,
-            color: '#64748b',
-            margin: '1.5rem 0 2.5rem 0',
-            letterSpacing: '0.01em',
-          }}>
-            Bridging gap between digital intelligence and physical reality
-          </p>
           <div style={{
             display: 'flex',
-            gap: '0.875rem',
-            flexWrap: 'wrap',
-            marginTop: '0.5rem',
+            flexDirection: 'column',
+            alignItems: 'flex-start',
+            justifyContent: 'center',
+            height: '100%',
           }}>
-            <a href="/docs/intro" className={`${styles.button} ${styles['button--lg']} ${styles['button--primary']}`}>
-              Get Started
-            </a>
-            <a href="/docs/robotics-module-one/index" className={`${styles.button} ${styles['button--lg']} ${styles['button--secondary']}`}>
-              View Curriculum
-            </a>
+            <div style={{
+              marginBottom: '2rem',
+              padding: '0.5rem 1rem',
+              background: 'linear-gradient(135deg, rgba(59, 130, 246, 0.1) 0%, rgba(37, 99, 235, 0.1) 100%)',
+              borderRadius: '50px',
+              border: '1px solid rgba(59, 130, 246, 0.2)',
+              fontSize: '0.9rem',
+              fontWeight: 600,
+              color: '#3b82f6',
+              display: 'inline-block',
+            }}>
+              Future of Robotics
+            </div>
+            <h1 style={{
+              fontSize: 'clamp(2.5rem, 7vw, 4.5rem)',
+              fontWeight: 800,
+              lineHeight: 1.05,
+              color: '#0f172a',
+              margin: '0 0 1.5rem',
+              letterSpacing: '-0.03em',
+              maxWidth: '100%',
+            }}>
+              Physical AI & Humanoid Robotics
+            </h1>
+            <p style={{
+              fontSize: 'clamp(1.1rem, 2.5vw, 1.25rem)',
+              fontWeight: 400,
+              lineHeight: 1.7,
+              color: '#64748b',
+              margin: '0 0 2.5rem 0',
+              letterSpacing: '0.01em',
+              maxWidth: '90%',
+            }}>
+              Bridging gap between digital intelligence and physical reality
+            </p>
+            <div style={{
+              display: 'flex',
+              gap: '1.25rem',
+              flexWrap: 'wrap',
+              marginTop: '1rem',
+            }}>
+              <a href="/docs/intro" className={`${styles.button} ${styles['button--lg']} ${styles['button--primary']}`} style={{
+                padding: '1rem 2rem',
+                fontSize: '1rem',
+                fontWeight: 700,
+                textTransform: 'uppercase',
+                letterSpacing: '0.05em',
+              }}>
+                Get Started
+              </a>
+              <a href="/docs/robotics-module-one/index" className={`${styles.button} ${styles['button--lg']} ${styles['button--secondary']}`} style={{
+                padding: '1rem 2rem',
+                fontSize: '1rem',
+                fontWeight: 700,
+                textTransform: 'uppercase',
+                letterSpacing: '0.05em',
+              }}>
+                View Curriculum
+              </a>
+            </div>
           </div>
         </main>
 
@@ -130,21 +169,31 @@ export default function Home() {
               max-width: 100% !important;
               z-index: 1 !important;
             }
-            div[style*="display: 'flex'"][style*="gap: '0.875rem'"] {
+            div[style*="display: 'flex'"][style*="gap: '1.25rem'"] {
               justify-content: center !important;
               width: 100%;
+              flex-direction: column !important;
+              align-items: center !important;
+            }
+            div[style*="display: 'flex'"][style*="gap: '1.25rem'"] a {
+              width: 100% !important;
+              max-width: 300px !important;
+              text-align: center !important;
             }
           }
           @media (max-width: 480px) {
-            h1 { font-size: 2rem !important; }
+            h1 { font-size: 2.2rem !important; }
             .robot-main-container { height: 280px !important; }
-            div[style*="display: 'flex'"][style*="gap: '0.875rem'"] {
-              flex-direction: column;
-              align-items: stretch;
+            p { font-size: 1.1rem !important; }
+            div[style*="display: 'flex'"][style*="gap: '1.25rem'"] {
+              flex-direction: column !important;
+              align-items: stretch !important;
+              gap: 1rem !important;
             }
-            div[style*="display: 'flex'"][style*="gap: '0.875rem'"] a {
-              width: 100%;
-              text-align: center;
+            div[style*="display: 'flex'"][style*="gap: '1.25rem'"] a {
+              width: 100% !important;
+              max-width: none !important;
+              text-align: center !important;
             }
           }
         `}</style>
@@ -184,27 +233,44 @@ export default function Home() {
           <div style={{
             display: 'grid',
             gridTemplateColumns: 'repeat(3, 1fr)',
-            gap: '1.75rem',
+            gap: '2rem',
             marginBottom: '3rem',
           }} className="feature-grid-3">
             {/* Card 1 */}
             <div style={{
-              padding: '2.25rem',
-              borderRadius: '12px',
-              background: '#ffffff',
-              border: '1px solid #e2e8f0',
-              transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+              padding: '2.5rem',
+              borderRadius: '20px',
+              background: 'linear-gradient(0deg, rgba(255,255,255,1) 0%, rgba(255,255,255,0.95) 100%)',
+              border: '1px solid rgba(226, 232, 240, 0.6)',
+              transition: 'all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275)',
+              position: 'relative',
+              overflow: 'hidden',
+              boxShadow: '0 6px 24px rgba(0, 0, 0, 0.06)',
             }}
             onMouseEnter={(e) => {
-              e.currentTarget.style.transform = 'translateY(-4px)';
-              e.currentTarget.style.boxShadow = '0 20px 40px rgba(0, 0, 0, 0.08)';
-              e.currentTarget.style.borderColor = '#cbd5e1';
+              const topBar = e.currentTarget.querySelector('.feature-card-top-bar');
+              if (topBar) topBar.style.opacity = '1';
+              e.currentTarget.style.transform = 'translateY(-8px)';
+              e.currentTarget.style.boxShadow = '0 25px 50px rgba(0, 0, 0, 0.12)';
+              e.currentTarget.style.borderColor = 'rgba(203, 213, 225, 0.8)';
             }}
             onMouseLeave={(e) => {
+              const topBar = e.currentTarget.querySelector('.feature-card-top-bar');
+              if (topBar) topBar.style.opacity = '0';
               e.currentTarget.style.transform = 'translateY(0)';
-              e.currentTarget.style.boxShadow = 'none';
-              e.currentTarget.style.borderColor = '#e2e8f0';
+              e.currentTarget.style.boxShadow = '0 6px 24px rgba(0, 0, 0, 0.06)';
+              e.currentTarget.style.borderColor = 'rgba(226, 232, 240, 0.6)';
             }}>
+              <div className="feature-card-top-bar" style={{
+                position: 'absolute',
+                top: 0,
+                left: 0,
+                right: 0,
+                height: '4px',
+                background: 'linear-gradient(90deg, #3b82f6 0%, #2563eb 100%)',
+                opacity: 0,
+                transition: 'opacity 0.4s ease',
+              }}></div>
               <div style={{
                 width: '56px',
                 height: '56px',
@@ -228,22 +294,39 @@ export default function Home() {
 
             {/* Card 2 */}
             <div style={{
-              padding: '2.25rem',
-              borderRadius: '12px',
-              background: '#ffffff',
-              border: '1px solid #e2e8f0',
-              transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+              padding: '2.5rem',
+              borderRadius: '20px',
+              background: 'linear-gradient(0deg, rgba(255,255,255,1) 0%, rgba(255,255,255,0.95) 100%)',
+              border: '1px solid rgba(226, 232, 240, 0.6)',
+              transition: 'all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275)',
+              position: 'relative',
+              overflow: 'hidden',
+              boxShadow: '0 6px 24px rgba(0, 0, 0, 0.06)',
             }}
             onMouseEnter={(e) => {
-              e.currentTarget.style.transform = 'translateY(-4px)';
-              e.currentTarget.style.boxShadow = '0 20px 40px rgba(0, 0, 0, 0.08)';
-              e.currentTarget.style.borderColor = '#cbd5e1';
+              const topBar = e.currentTarget.querySelector('.feature-card-top-bar');
+              if (topBar) topBar.style.opacity = '1';
+              e.currentTarget.style.transform = 'translateY(-8px)';
+              e.currentTarget.style.boxShadow = '0 25px 50px rgba(0, 0, 0, 0.12)';
+              e.currentTarget.style.borderColor = 'rgba(203, 213, 225, 0.8)';
             }}
             onMouseLeave={(e) => {
+              const topBar = e.currentTarget.querySelector('.feature-card-top-bar');
+              if (topBar) topBar.style.opacity = '0';
               e.currentTarget.style.transform = 'translateY(0)';
-              e.currentTarget.style.boxShadow = 'none';
-              e.currentTarget.style.borderColor = '#e2e8f0';
+              e.currentTarget.style.boxShadow = '0 6px 24px rgba(0, 0, 0, 0.06)';
+              e.currentTarget.style.borderColor = 'rgba(226, 232, 240, 0.6)';
             }}>
+              <div className="feature-card-top-bar" style={{
+                position: 'absolute',
+                top: 0,
+                left: 0,
+                right: 0,
+                height: '4px',
+                background: 'linear-gradient(90deg, #8b5cf6 0%, #7c3aed 100%)',
+                opacity: 0,
+                transition: 'opacity 0.4s ease',
+              }}></div>
               <div style={{
                 width: '56px',
                 height: '56px',
@@ -268,22 +351,39 @@ export default function Home() {
 
             {/* Card 3 */}
             <div style={{
-              padding: '2.25rem',
-              borderRadius: '12px',
-              background: '#ffffff',
-              border: '1px solid #e2e8f0',
-              transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+              padding: '2.5rem',
+              borderRadius: '20px',
+              background: 'linear-gradient(0deg, rgba(255,255,255,1) 0%, rgba(255,255,255,0.95) 100%)',
+              border: '1px solid rgba(226, 232, 240, 0.6)',
+              transition: 'all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275)',
+              position: 'relative',
+              overflow: 'hidden',
+              boxShadow: '0 6px 24px rgba(0, 0, 0, 0.06)',
             }}
             onMouseEnter={(e) => {
-              e.currentTarget.style.transform = 'translateY(-4px)';
-              e.currentTarget.style.boxShadow = '0 20px 40px rgba(0, 0, 0, 0.08)';
-              e.currentTarget.style.borderColor = '#cbd5e1';
+              const topBar = e.currentTarget.querySelector('.feature-card-top-bar');
+              if (topBar) topBar.style.opacity = '1';
+              e.currentTarget.style.transform = 'translateY(-8px)';
+              e.currentTarget.style.boxShadow = '0 25px 50px rgba(0, 0, 0, 0.12)';
+              e.currentTarget.style.borderColor = 'rgba(203, 213, 225, 0.8)';
             }}
             onMouseLeave={(e) => {
+              const topBar = e.currentTarget.querySelector('.feature-card-top-bar');
+              if (topBar) topBar.style.opacity = '0';
               e.currentTarget.style.transform = 'translateY(0)';
-              e.currentTarget.style.boxShadow = 'none';
-              e.currentTarget.style.borderColor = '#e2e8f0';
+              e.currentTarget.style.boxShadow = '0 6px 24px rgba(0, 0, 0, 0.06)';
+              e.currentTarget.style.borderColor = 'rgba(226, 232, 240, 0.6)';
             }}>
+              <div className="feature-card-top-bar" style={{
+                position: 'absolute',
+                top: 0,
+                left: 0,
+                right: 0,
+                height: '4px',
+                background: 'linear-gradient(90deg, #10b981 0%, #059669 100%)',
+                opacity: 0,
+                transition: 'opacity 0.4s ease',
+              }}></div>
               <div style={{
                 width: '56px',
                 height: '56px',
@@ -316,11 +416,24 @@ export default function Home() {
           }} className="feature-grid-2">
             {/* Learning Path Card */}
             <div style={{
-              padding: '2.25rem',
-              borderRadius: '12px',
-              background: '#ffffff',
-              border: '1px solid #e2e8f0',
+              padding: '2.5rem',
+              borderRadius: '20px',
+              background: 'linear-gradient(0deg, rgba(255,255,255,1) 0%, rgba(255,255,255,0.95) 100%)',
+              border: '1px solid rgba(226, 232, 240, 0.6)',
+              transition: 'all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275)',
+              position: 'relative',
+              overflow: 'hidden',
+              boxShadow: '0 6px 24px rgba(0, 0, 0, 0.06)',
             }}>
+              <div style={{
+                position: 'absolute',
+                top: 0,
+                left: 0,
+                right: 0,
+                height: '4px',
+                background: 'linear-gradient(90deg, #f59e0b 0%, #d97706 100%)',
+                opacity: 1,
+              }}></div>
               <h3 style={{ fontSize: '1.25rem', fontWeight: 600, color: '#0f172a', margin: '0 0 1.5rem', letterSpacing: '-0.01em' }}>Learning Path</h3>
               <ul style={{ margin: '0', paddingLeft: '0', listStyle: 'none' }}>
                 {[
@@ -353,11 +466,24 @@ export default function Home() {
 
             {/* Quick Start Card */}
             <div style={{
-              padding: '2.25rem',
-              borderRadius: '12px',
-              background: '#ffffff',
-              border: '1px solid #e2e8f0',
+              padding: '2.5rem',
+              borderRadius: '20px',
+              background: 'linear-gradient(0deg, rgba(255,255,255,1) 0%, rgba(255,255,255,0.95) 100%)',
+              border: '1px solid rgba(226, 232, 240, 0.6)',
+              transition: 'all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275)',
+              position: 'relative',
+              overflow: 'hidden',
+              boxShadow: '0 6px 24px rgba(0, 0, 0, 0.06)',
             }}>
+              <div style={{
+                position: 'absolute',
+                top: 0,
+                left: 0,
+                right: 0,
+                height: '4px',
+                background: 'linear-gradient(90deg, #ef4444 0%, #dc2626 100%)',
+                opacity: 1,
+              }}></div>
               <h3 style={{ fontSize: '1.25rem', fontWeight: 600, color: '#0f172a', margin: '0 0 1.5rem', letterSpacing: '-0.01em' }}>Quick Start</h3>
               <ol style={{ margin: '0', paddingLeft: '0', listStyle: 'none' }}>
                 {[
@@ -410,9 +536,24 @@ export default function Home() {
             .feature-grid-3,
             .feature-grid-2 {
               grid-template-columns: 1fr !important;
+              gap: 1.5rem !important;
             }
             section {
               padding: 4rem 1.5rem !important;
+            }
+            .feature-grid-3 > div,
+            .feature-grid-2 > div {
+              padding: 2rem !important;
+            }
+          }
+          @media (max-width: 480px) {
+            .feature-grid-3,
+            .feature-grid-2 {
+              gap: 1.25rem !important;
+            }
+            .feature-grid-3 > div,
+            .feature-grid-2 > div {
+              padding: 1.75rem !important;
             }
           }
         `}</style>
