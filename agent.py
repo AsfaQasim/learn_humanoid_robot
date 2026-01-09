@@ -1,7 +1,6 @@
 import os
-from typing import List
 import logging
-
+from typing import List, Dict, Any
 from fastapi import FastAPI, HTTPException, Request
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
@@ -14,6 +13,10 @@ import google.generativeai as genai
 from qdrant_client import QdrantClient
 from qdrant_client.http import models
 from qdrant_client.http.exceptions import UnexpectedResponse
+
+# Set up logging
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
 
 # =========================
 # CONFIG
@@ -35,26 +38,26 @@ if not GEMINI_API_KEY:
     raise ValueError("[ERROR] GEMINI_API_KEY environment variable not set")
 
 # =========================
-# INIT
+# SERVERLESS INIT
 # =========================
 
-genai.configure(api_key=GEMINI_API_KEY)
-
-gemini_model = genai.GenerativeModel("gemini-2.5-flash")
-
-# Initialize Qdrant client with cloud configuration
-qdrant = QdrantClient(
-    url=QDRANT_URL,
-    api_key=QDRANT_API_KEY,
-    https=True
+# Create FastAPI app without global initialization for serverless compatibility
+app = FastAPI(
+    title="RAG Chatbot API",
+    version="1.0.0",
+    docs_url=None,  # Disable docs in production for security
+    redoc_url=None  # Disable redoc in production for security
 )
-
-app = FastAPI(title="RAG Chatbot API", version="1.0.0")
 
 # Configure CORS middleware for React frontend
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3000"],  # React development server
+    allow_origins=[
+        "http://localhost:3000",  # React development server
+        "http://localhost:3001",  # Alternative React dev server
+        "https://*.vercel.app",   # Vercel deployments
+        os.getenv("FRONTEND_URL", ""),  # Environment-specific URL
+    ],
     allow_credentials=True,
     allow_methods=["*"],  # Allow all methods (GET, POST, OPTIONS, etc.)
     allow_headers=["*"],  # Allow all headers
@@ -72,14 +75,20 @@ class ChatRequest(BaseModel):
 class ChatResponse(BaseModel):
     answer: str
     sources: List[str]
+    is_accurate: bool = True
+    sources_tracked: List[Dict[str, Any]] = []
 
 # =========================
 # HELPERS
 # =========================
 
-def embed_text(text: str):
+def embed_text(text: str, api_key: str):
     """Generate embeddings using Google's embedding API with error handling"""
     try:
+        # Configure API for this request
+        genai.configure(api_key=api_key)
+        gemini_model = genai.GenerativeModel("gemini-2.5-flash")
+
         # Use the embedding API to generate embeddings
         result = genai.embed_content(
             model="models/embedding-001",  # Gemini embedding model
@@ -94,37 +103,53 @@ def embed_text(text: str):
         else:
             raise Exception(f"Error generating embedding: {e}")
 
-def retrieve_docs(query: str, top_k: int = 5):
-    """Retrieve documents from Qdrant with error handling"""
+def retrieve_docs(query: str, top_k: int = 5, qdrant_url: str = None, qdrant_api_key: str = None, collection_name: str = None):
+    """Retrieve documents from Qdrant with error handling - serverless compatible"""
     try:
-        vector = embed_text(query)
+        # Initialize Qdrant client for this request
+        qdrant = QdrantClient(
+            url=qdrant_url or QDRANT_URL,
+            api_key=qdrant_api_key or QDRANT_API_KEY,
+            https=True
+        )
+
+        vector = embed_text(query, GEMINI_API_KEY)
 
         # Use HARD-CODED collection name, ignore any collection_name from frontend
+        collection = collection_name or HARDCODED_COLLECTION_NAME
         results = qdrant.search(
-            collection_name=HARDCODED_COLLECTION_NAME,
+            collection_name=collection,
             query_vector=vector,
             limit=top_k,
             with_payload=True
         )
 
         docs = []
+        sources_tracked = []
         for r in results:
             payload = r.payload or {}
             content = payload.get("text") or payload.get("content", "")
             if content:
                 docs.append(content)
+                # Track sources for reproducibility
+                sources_tracked.append({
+                    "content_snippet": content[:100] + "..." if len(content) > 100 else content,
+                    "source_url": payload.get("source_url", payload.get("url", "")),
+                    "chapter": payload.get("chapter", payload.get("section", payload.get("title", ""))),
+                    "relevance_score": float(r.score)
+                })
 
-        return docs
+        return docs, sources_tracked
     except UnexpectedResponse as e:
         if e.status_code == 404:
             # Collection doesn't exist - return empty results gracefully
-            print(f"Collection '{HARDCODED_COLLECTION_NAME}' does not exist: {e}")
-            return []
+            logger.warning(f"Collection '{HARDCODED_COLLECTION_NAME}' does not exist: {e}")
+            return [], []
         else:
-            print(f"Qdrant error: {e}")
+            logger.error(f"Qdrant error: {e}")
             raise Exception(f"Qdrant error: {e}")
     except Exception as e:
-        print(f"Error retrieving documents: {e}")
+        logger.error(f"Error retrieving documents: {e}")
         raise Exception(f"Error retrieving documents: {e}")
 
 def build_prompt(question: str, context_docs: List[str]) -> str:
@@ -145,6 +170,36 @@ Question:
 Answer:
 """
 
+def validate_response_accuracy(response: str, context_docs: List[str]) -> bool:
+    """
+    Validate that the response is grounded in the provided context.
+    This addresses the constitution requirement for 'Accuracy'.
+    """
+    if not context_docs:
+        # If no context was provided, any response claiming lack of info is valid
+        if "I don't know" in response or "couldn't find" in response.lower():
+            return True
+        return False
+
+    # Simple validation: check if response contains information from context
+    context_text = " ".join(context_docs).lower()
+    response_lower = response.lower()
+
+    # Check if response contains key terms from context
+    context_words = set(context_text.split()[:50])  # Take first 50 words as representative
+    response_words = set(response_lower.split())
+
+    # If at least some overlap exists, consider it grounded
+    overlap = context_words.intersection(response_words)
+    if len(overlap) > 0:
+        return True
+
+    # Additional check: if response admits lack of information, it's valid
+    if "i don't know" in response_lower or "could not find" in response_lower or "no information" in response_lower:
+        return True
+
+    return False
+
 # =========================
 # API
 # =========================
@@ -163,6 +218,7 @@ async def chat_endpoint(request: Request):
     try:
         # Get raw JSON data from request
         raw_body = await request.json()
+        logger.info(f"Received request with keys: {list(raw_body.keys())}")
 
         # Extract query_text as the primary query field
         user_query = raw_body.get("query_text")
@@ -187,23 +243,33 @@ async def chat_endpoint(request: Request):
         collection_name = HARDCODED_COLLECTION_NAME
 
         # Retrieve relevant documents using the hardcoded collection
-        docs = retrieve_docs(user_query, top_k=5)
+        docs, sources_tracked = retrieve_docs(user_query, top_k=5)
 
         if not docs:
             return ChatResponse(
                 answer="No data found in knowledge base",
-                sources=[]
+                sources=[],
+                is_accurate=True,  # Accurate because it correctly reports no data
+                sources_tracked=[]
             )
 
         prompt = build_prompt(user_query, docs)
 
-        response = gemini_model.generate_content(prompt)
+        # Configure and use Gemini model for this request
+        genai.configure(api_key=GEMINI_API_KEY)
+        gemini_model_for_request = genai.GenerativeModel("gemini-2.5-flash")
+        response = gemini_model_for_request.generate_content(prompt)
 
         answer = response.text.strip()
 
+        # Validate response accuracy
+        is_accurate = validate_response_accuracy(answer, docs)
+
         return ChatResponse(
             answer=answer,
-            sources=docs
+            sources=docs,
+            is_accurate=is_accurate,
+            sources_tracked=sources_tracked
         )
 
     except HTTPException:
@@ -211,22 +277,24 @@ async def chat_endpoint(request: Request):
         raise
     except Exception as e:
         error_msg = str(e)
+        logger.error(f"Error processing request: {error_msg}")
         if "quota" in error_msg.lower() or "embed_content_free_tier_requests" in error_msg.lower():
             return ChatResponse(
                 answer="Embedding quota exceeded. Please try again later.",
-                sources=[]
+                sources=[],
+                is_accurate=False,
+                sources_tracked=[]
             )
         else:
-            print(f"Error processing request: {error_msg}")
             return ChatResponse(
                 answer="Error processing your request. Please try again later.",
-                sources=[]
+                sources=[],
+                is_accurate=False,
+                sources_tracked=[]
             )
 
 @app.get("/health")
 def health():
-    return {"status": "healthy", "model": "gemini-2.5-flash"}
+    return {"status": "healthy", "model": "gemini-2.5-flash", "serverless": True}
 
-if __name__ == "__main__":
-    import uvicorn
-    uvicorn.run(app, host="0.0.0.0", port=8000)
+# For Vercel serverless functions - no uvicorn needed

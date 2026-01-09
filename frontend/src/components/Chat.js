@@ -1,19 +1,15 @@
 import React, { useState, useEffect, useRef } from 'react';
 import './Chat.css';
 
-// ⚡ Change this to true if testing locally
-const USE_LOCAL_BACKEND = true;
-
+// Change this to true if testing locally
 // Backend URLs
 const LOCAL_BACKEND = "http://localhost:8000";
-const DEPLOYED_BACKEND = "https://asfaqasim-my-rag-chatbot.hf.space";
 
-//  backend dynamically
-
+// Prefer using same-origin API on Vercel (see vercel.json routes). Fallback to localhost in dev.
 const BACKEND_URL =
     process.env.NODE_ENV === "development"
-        ? "http://localhost:8000"
-        : "https://asfaqasim-my-rag-chatbot.hf.space";
+        ? LOCAL_BACKEND
+        : "/api";
 
 
 const Chat = () => {
@@ -33,8 +29,8 @@ const Chat = () => {
         }]);
 
         const handleMouseUp = () => {
-            const selection = window.getSelection().toString();
-            if (selection) setSelectedText(selection);
+            const selection = window.getSelection().toString().trim();
+            if (selection.length > 0) setSelectedText(selection);
         };
         window.addEventListener('mouseup', handleMouseUp);
         return () => window.removeEventListener('mouseup', handleMouseUp);
