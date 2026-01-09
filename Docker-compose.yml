@@ -1,0 +1,26 @@
+version: '3.3'
+
+services:
+  backend:
+    build: ./backend
+    container_name: learn-humanoid-robot-backend
+    ports:
+      - "8000:8000"
+    networks:
+      - app-net
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: learn-humanoid-robot-frontend
+    ports: # Nginx runs on port 80 inside the container
+      - "8080:80"
+    depends_on:
+      - backend
+    networks:
+      - app-net
+
+networks:
+  app-net:
+    driver: bridge
