@@ -12,9 +12,12 @@ class FeedbackRequest(BaseModel):
     response_id: str
     feedback: int
 
-# Load environment variables from .env file
-from dotenv import load_dotenv
-load_dotenv()
+# Load environment variables - skip .env file in serverless environments
+import os
+if os.environ.get("VERCEL") != "1":
+    # Only load .env file locally, not in Vercel
+    from dotenv import load_dotenv
+    load_dotenv()
 
 # Import your RAG service functionality
 import sys
@@ -106,6 +109,7 @@ async def chat_endpoint(request: Request):
             rag_service = RAGService()
         except Exception as init_error:
             logger.error(f"Error initializing RAG Service: {init_error}")
+            logger.error(f"Environment variables available: QDRANT_URL set: {bool(os.getenv('QDRANT_URL'))}, QDRANT_API_KEY set: {bool(os.getenv('QDRANT_API_KEY'))}, COHERE_API_KEY set: {bool(os.getenv('COHERE_API_KEY'))}")
             raise HTTPException(status_code=500, detail="RAG Service initialization failed")
 
         # Process the user query using your RAG service with the specified collection
@@ -127,6 +131,7 @@ async def chat_endpoint(request: Request):
         raise
     except Exception as e:
         logger.error(f"Error processing request: {str(e)}")
+        logger.error(f"Full traceback: ", exc_info=True)  # Log full traceback for debugging
         raise HTTPException(status_code=500, detail=f"Error processing request: {str(e)}")
 
 @app.post("/feedback")

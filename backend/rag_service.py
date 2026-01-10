@@ -9,9 +9,12 @@ from typing import List, Dict, Any, Optional, Set
 import threading
 
 from pydantic import BaseModel, Field
-from dotenv import load_dotenv
 
-load_dotenv()
+# Load environment variables - skip .env file in serverless environments
+if os.environ.get("VERCEL") != "1":
+    # Only load .env file locally, not in Vercel
+    from dotenv import load_dotenv
+    load_dotenv()
 
 import cohere
 import google.generativeai as genai
@@ -33,11 +36,17 @@ DEFAULT_COLLECTION_NAME = "document_embeddings"
 COHERE_API_KEY = os.getenv("COHERE_API_KEY")
 GEMINI_API_KEY = os.getenv("GEMINI_API_KEY", "")
 
+# Log environment variable availability for debugging in serverless
+logger.info(f"Environment variables loaded. QDRANT_URL set: {bool(QDRANT_URL)}, QDRANT_API_KEY set: {bool(QDRANT_API_KEY)}, COHERE_API_KEY set: {bool(COHERE_API_KEY)}")
+
 if not QDRANT_URL:
+    logger.error("QDRANT_URL environment variable not set")
     raise ValueError("QDRANT_URL environment variable not set")
 if not QDRANT_API_KEY:
+    logger.error("QDRANT_API_KEY environment variable not set")
     raise ValueError("QDRANT_API_KEY environment variable not set")
 if not COHERE_API_KEY:
+    logger.error("COHERE_API_KEY environment variable not set")
     raise ValueError("COHERE_API_KEY environment variable not set")
 
 
