@@ -6,7 +6,7 @@
     "node": "24.x"
   },
   "scripts": {
-    "build": "cd frontend && npm run build"
+    "build": "cd frontend && npx docusaurus build"
   },
   "dependencies": {
     "@splinetool/react-spline": "^4.1.0"

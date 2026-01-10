@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="utf-8"?><?xml-stylesheet type="text/xsl" href="rss.xsl"?>
+<rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+    <channel>
+        <title>Physical AI &amp; Humanoid Robotics Textbook Blog</title>
+        <link>https://your-docusaurus-site.example.com/blog</link>
+        <description>Physical AI &amp; Humanoid Robotics Textbook Blog</description>
+        <lastBuildDate>Wed, 01 Jan 2025 00:00:00 GMT</lastBuildDate>
+        <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
+        <generator>https://github.com/jpmonette/feed</generator>
+        <language>en</language>
+        <item>
+            <title><![CDATA[What is Physical AI?]]></title>
+            <link>https://your-docusaurus-site.example.com/blog/what-is-physical-ai</link>
+            <guid>https://your-docusaurus-site.example.com/blog/what-is-physical-ai</guid>
+            <pubDate>Wed, 01 Jan 2025 00:00:00 GMT</pubDate>
+            <description><![CDATA[Physical AI represents the convergence of artificial intelligence and physical robotics, creating intelligent systems that can interact with and manipulate the real world.]]></description>
+            <content:encoded><![CDATA[<p>Physical AI represents the convergence of artificial intelligence and physical robotics, creating intelligent systems that can interact with and manipulate the real world.</p>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="the-vision">The Vision<a href="https://your-docusaurus-site.example.com/blog/what-is-physical-ai#the-vision" class="hash-link" aria-label="Direct link to The Vision" title="Direct link to The Vision" translate="no">​</a></h2>
+<p>Physical AI aims to bridge the gap between digital intelligence and physical reality by developing robots that can:</p>
+<ul>
+<li class=""><strong>Perceive</strong> their environment through sensors like cameras, LiDAR, and tactile feedback</li>
+<li class=""><strong>Process</strong> information using advanced machine learning and computer vision algorithms</li>
+<li class=""><strong>Reason</strong> about complex situations and make autonomous decisions</li>
+<li class=""><strong>Act</strong> on the physical world through motors, grippers, and other effectors</li>
+</ul>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="key-components">Key Components<a href="https://your-docusaurus-site.example.com/blog/what-is-physical-ai#key-components" class="hash-link" aria-label="Direct link to Key Components" title="Direct link to Key Components" translate="no">​</a></h2>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="1-perception-systems">1. Perception Systems<a href="https://your-docusaurus-site.example.com/blog/what-is-physical-ai#1-perception-systems" class="hash-link" aria-label="Direct link to 1. Perception Systems" title="Direct link to 1. Perception Systems" translate="no">​</a></h3>
+<p>Physical AI systems need robust perception to understand their surroundings:</p>
+<ul>
+<li class=""><strong>Visual Perception</strong>: Deep learning models for object detection, tracking, and recognition</li>
+<li class=""><strong>Spatial Awareness</strong>: LiDAR and depth sensing for 3D mapping and navigation</li>
+<li class=""><strong>Proprioception</strong>: Internal sensing of joint positions, velocities, and forces</li>
+<li class=""><strong>Semantic Understanding</strong>: Scene segmentation and object classification for contextual awareness</li>
+</ul>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="2-planning--control">2. Planning &amp; Control<a href="https://your-docusaurus-site.example.com/blog/what-is-physical-ai#2-planning--control" class="hash-link" aria-label="Direct link to 2. Planning &amp; Control" title="Direct link to 2. Planning &amp; Control" translate="no">​</a></h3>
+<p>Once the environment is perceived, the system must plan and execute actions:</p>
+<ul>
+<li class=""><strong>Motion Planning</strong>: Trajectory generation and collision avoidance</li>
+<li class=""><strong>Control Systems</strong>: Low-level motor control for precise movement</li>
+<li class=""><strong>Task Planning</strong>: Breaking down complex tasks into achievable subgoals</li>
+<li class=""><strong>Adaptive Behavior</strong>: Real-time adjustment to changing conditions</li>
+</ul>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="3-learning--adaptation">3. Learning &amp; Adaptation<a href="https://your-docusaurus-site.example.com/blog/what-is-physical-ai#3-learning--adaptation" class="hash-link" aria-label="Direct link to 3. Learning &amp; Adaptation" title="Direct link to 3. Learning &amp; Adaptation" translate="no">​</a></h3>
+<p>Physical AI systems continuously improve through:</p>
+<ul>
+<li class=""><strong>Sim2Real Transfer</strong>: Training in simulation, deploying to physical robots</li>
+<li class=""><strong>Reinforcement Learning</strong>: Learning through trial and error in physical environments</li>
+<li class=""><strong>Online Adaptation</strong>: Real-time parameter tuning based on environmental feedback</li>
+<li class=""><strong>Meta-Learning</strong>: Learning how to learn more efficiently</li>
+</ul>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="applications">Applications<a href="https://your-docusaurus-site.example.com/blog/what-is-physical-ai#applications" class="hash-link" aria-label="Direct link to Applications" title="Direct link to Applications" translate="no">​</a></h2>
+<p>Physical AI is being applied across multiple domains:</p>
+<div style="display:grid;gap:1rem;margin-top:2rem"><div><h4>🏭 Healthcare Robotics</h4><p>Assistive robots for surgery, rehabilitation, and elderly care with precise control and safe human interaction.</p></div><div><h4>🏭 Industrial Automation</h4><p>Collaborative robots working alongside humans in manufacturing and logistics environments.</p></div><div><h4>🏭 Service Robotics</h4><p>Delivery robots, cleaning bots, and personal assistants for home and commercial use.</p></div><div><h4>🏭 Autonomous Vehicles</h4><p>Self-driving cars and drones navigating complex environments with minimal human intervention.</p></div><div><h4>🏭 Humanoid Robots</h4><p>Bipedal robots mimicking human form and movement for natural interaction and versatile task performance.</p></div><div><h4>🏭 Agricultural Robotics</h4><p>Autonomous farming equipment for precision planting, harvesting, and crop monitoring.</p></div></div>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="challenges">Challenges<a href="https://your-docusaurus-site.example.com/blog/what-is-physical-ai#challenges" class="hash-link" aria-label="Direct link to Challenges" title="Direct link to Challenges" translate="no">​</a></h2>
+<p>Developing Physical AI systems presents several technical challenges:</p>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="1-sim2real-gap">1. Sim2Real Gap<a href="https://your-docusaurus-site.example.com/blog/what-is-physical-ai#1-sim2real-gap" class="hash-link" aria-label="Direct link to 1. Sim2Real Gap" title="Direct link to 1. Sim2Real Gap" translate="no">​</a></h3>
+<p>Models trained in simulation often don't generalize perfectly to the physical world due to:</p>
+<ul>
+<li class="">Physics simulation inaccuracies</li>
+<li class="">Sensor noise and calibration issues</li>
+<li class="">Material properties not perfectly modeled</li>
+<li class="">Unpredictable real-world conditions</li>
+</ul>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="2-real-time-constraints">2. Real-Time Constraints<a href="https://your-docusaurus-site.example.com/blog/what-is-physical-ai#2-real-time-constraints" class="hash-link" aria-label="Direct link to 2. Real-Time Constraints" title="Direct link to 2. Real-Time Constraints" translate="no">​</a></h3>
+<p>Physical AI must operate with strict timing requirements:</p>
+<ul>
+<li class=""><strong>Perception</strong>: Processing sensor data at 30-60Hz or higher</li>
+<li class=""><strong>Planning</strong>: Generating motion plans within milliseconds</li>
+<li class=""><strong>Control</strong>: Sending commands at 500Hz-1kHz rates</li>
+<li class=""><strong>Latency</strong>: End-to-end response times under 100ms for reactive behavior</li>
+</ul>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="3-safety--reliability">3. Safety &amp; Reliability<a href="https://your-docusaurus-site.example.com/blog/what-is-physical-ai#3-safety--reliability" class="hash-link" aria-label="Direct link to 3. Safety &amp; Reliability" title="Direct link to 3. Safety &amp; Reliability" translate="no">​</a></h3>
+<p>Operating in the physical world demands rigorous safety measures:</p>
+<ul>
+<li class=""><strong>Collision Detection</strong>: Multiple redundant systems to prevent accidents</li>
+<li class=""><strong>Fail-Safe Behavior</strong>: Graceful degradation when components fail</li>
+<li class=""><strong>Human-Robot Interaction</strong>: Safe collaboration with people in shared spaces</li>
+<li class=""><strong>Environmental Awareness</strong>: Adapting to weather, lighting, and other conditions</li>
+</ul>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="the-future">The Future<a href="https://your-docusaurus-site.example.com/blog/what-is-physical-ai#the-future" class="hash-link" aria-label="Direct link to The Future" title="Direct link to The Future" translate="no">​</a></h2>
+<p>Physical AI is rapidly evolving with several key trends:</p>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="foundation-models">Foundation Models<a href="https://your-docusaurus-site.example.com/blog/what-is-physical-ai#foundation-models" class="hash-link" aria-label="Direct link to Foundation Models" title="Direct link to Foundation Models" translate="no">​</a></h3>
+<p>Large language models and vision transformers are enabling:</p>
+<ul>
+<li class="">Natural language commands for robots</li>
+<li class="">Few-shot learning of new tasks without extensive retraining</li>
+<li class="">Zero-shot generalization to unseen scenarios</li>
+<li class="">Improved understanding of complex natural language instructions</li>
+</ul>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="embodied-ai">Embodied AI<a href="https://your-docusaurus-site.example.com/blog/what-is-physical-ai#embodied-ai" class="hash-link" aria-label="Direct link to Embodied AI" title="Direct link to Embodied AI" translate="no">​</a></h3>
+<p>New approaches focus on learning through physical interaction:</p>
+<ul>
+<li class=""><strong>Self-Supervised Learning</strong>: Learning from raw sensor data without labels</li>
+<li class=""><strong>Curiosity-Driven Exploration</strong>: Robots actively seeking novel information</li>
+<li class=""><strong>Imitation Learning</strong>: Learning from human demonstrations</li>
+<li class=""><strong>Affordance Learning</strong>: Understanding what actions are possible in the environment</li>
+</ul>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="hardware-advances">Hardware Advances<a href="https://your-docusaurus-site.example.com/blog/what-is-physical-ai#hardware-advances" class="hash-link" aria-label="Direct link to Hardware Advances" title="Direct link to Hardware Advances" translate="no">​</a></h3>
+<p>Specialized computing accelerators are making Physical AI more capable:</p>
+<ul>
+<li class=""><strong>Neuromorphic Chips</strong>: Brain-inspired low-power processors</li>
+<li class=""><strong>Edge AI</strong>: Running models directly on robots for low latency</li>
+<li class=""><strong>Event-Based Cameras</strong>: High-speed, low-power vision sensors</li>
+<li class=""><strong>Soft Robotics</strong>: Compliant materials and novel actuation methods</li>
+</ul>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="conclusion">Conclusion<a href="https://your-docusaurus-site.example.com/blog/what-is-physical-ai#conclusion" class="hash-link" aria-label="Direct link to Conclusion" title="Direct link to Conclusion" translate="no">​</a></h2>
+<p>Physical AI represents the next frontier in robotics, where intelligence moves from software into the physical world. By combining advanced AI algorithms with sophisticated robotic hardware, we're creating machines that can perceive, understand, and act in ways that were previously only possible in science fiction.</p>
+<p>This textbook covers the fundamental concepts, practical implementations, and real-world applications of Physical AI, providing you with the knowledge and skills to build the next generation of intelligent robots.</p>
+<hr>
+<p><strong>Next Steps:</strong></p>
+<ul>
+<li class=""><a class="" href="https://your-docusaurus-site.example.com/blog/technology-stack">Understanding the Technology Stack</a></li>
+<li class=""><a class="" href="https://your-docusaurus-site.example.com/blog/ros2-modern-robotics">The Role of ROS 2 in Modern Robotics</a></li>
+<li class=""><a class="" href="https://your-docusaurus-site.example.com/docs/intro">Getting Started with Physical AI</a></li>
+</ul>]]></content:encoded>
+            <category>ai</category>
+            <category>physical-ai</category>
+            <category>robotics</category>
+        </item>
+        <item>
+            <title><![CDATA[Welcome]]></title>
+            <link>https://your-docusaurus-site.example.com/blog/welcome</link>
+            <guid>https://your-docusaurus-site.example.com/blog/welcome</guid>
+            <pubDate>Thu, 26 Aug 2021 00:00:00 GMT</pubDate>
+            <description><![CDATA[Docusaurus blogging features are powered by the blog plugin.]]></description>
+            <content:encoded><![CDATA[<p><a href="https://docusaurus.io/docs/blog" target="_blank" rel="noopener noreferrer" class="">Docusaurus blogging features</a> are powered by the <a href="https://docusaurus.io/docs/api/plugins/@docusaurus/plugin-content-blog" target="_blank" rel="noopener noreferrer" class="">blog plugin</a>.</p>
+<p>Here are a few tips you might find useful.</p>
+<p>Simply add Markdown files (or folders) to the <code>blog</code> directory.</p>
+<p>Regular blog authors can be added to <code>authors.yml</code>.</p>
+<p>The blog post date can be extracted from filenames, such as:</p>
+<ul>
+<li class=""><code>2019-05-30-welcome.md</code></li>
+<li class=""><code>2019-05-30-welcome/index.md</code></li>
+</ul>
+<p>A blog post folder can be convenient to co-locate blog post images:</p>
+<p><img decoding="async" loading="lazy" alt="Docusaurus Plushie" src="https://your-docusaurus-site.example.com/assets/images/docusaurus-plushie-banner-a60f7593abca1e3eef26a9afa244e4fb.jpeg" width="1500" height="500" class="img_ev3q"></p>
+<p>The blog supports tags as well!</p>
+<p><strong>And if you don't want a blog</strong>: just delete this directory, and use <code>blog: false</code> in your Docusaurus config.</p>]]></content:encoded>
+            <category>Facebook</category>
+            <category>Hello</category>
+            <category>Docusaurus</category>
+        </item>
+        <item>
+            <title><![CDATA[MDX Blog Post]]></title>
+            <link>https://your-docusaurus-site.example.com/blog/mdx-blog-post</link>
+            <guid>https://your-docusaurus-site.example.com/blog/mdx-blog-post</guid>
+            <pubDate>Sun, 01 Aug 2021 00:00:00 GMT</pubDate>
+            <description><![CDATA[Blog posts support Docusaurus Markdown features, such as MDX.]]></description>
+            <content:encoded><![CDATA[<p>Blog posts support <a href="https://docusaurus.io/docs/markdown-features" target="_blank" rel="noopener noreferrer" class="">Docusaurus Markdown features</a>, such as <a href="https://mdxjs.com/" target="_blank" rel="noopener noreferrer" class="">MDX</a>.</p>
+<div class="theme-admonition theme-admonition-tip admonition_xJq3 alert alert--success"><div class="admonitionHeading_Gvgb"><span class="admonitionIcon_Rf37"><svg viewBox="0 0 12 16"><path fill-rule="evenodd" d="M6.5 0C3.48 0 1 2.19 1 5c0 .92.55 2.25 1 3 1.34 2.25 1.78 2.78 2 4v1h5v-1c.22-1.22.66-1.75 2-4 .45-.75 1-2.08 1-3 0-2.81-2.48-5-5.5-5zm3.64 7.48c-.25.44-.47.8-.67 1.11-.86 1.41-1.25 2.06-1.45 3.23-.02.05-.02.11-.02.17H5c0-.06 0-.13-.02-.17-.2-1.17-.59-1.83-1.45-3.23-.2-.31-.42-.67-.67-1.11C2.44 6.78 2 5.65 2 5c0-2.2 2.02-4 4.5-4 1.22 0 2.36.42 3.22 1.19C10.55 2.94 11 3.94 11 5c0 .66-.44 1.78-.86 2.48zM4 14h5c-.23 1.14-1.3 2-2.5 2s-2.27-.86-2.5-2z"></path></svg></span>tip</div><div class="admonitionContent_BuS1"><p>Use the power of React to create interactive blog posts.</p></div></div>
+<!-- -->
+<p>For example, use JSX to create an interactive button:</p>
+<div class="language-js codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockContent_QJqH"><pre tabindex="0" class="prism-code language-js codeBlock_bY9V thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#393A34"><span class="token operator" style="color:#393A34">&lt;</span><span class="token plain">button onClick</span><span class="token operator" style="color:#393A34">=</span><span class="token punctuation" style="color:#393A34">{</span><span class="token punctuation" style="color:#393A34">(</span><span class="token punctuation" style="color:#393A34">)</span><span class="token plain"> </span><span class="token arrow operator" style="color:#393A34">=&gt;</span><span class="token plain"> </span><span class="token function" style="color:#d73a49">alert</span><span class="token punctuation" style="color:#393A34">(</span><span class="token string" style="color:#e3116c">'button clicked!'</span><span class="token punctuation" style="color:#393A34">)</span><span class="token punctuation" style="color:#393A34">}</span><span class="token operator" style="color:#393A34">&gt;</span><span class="token maybe-class-name">Click</span><span class="token plain"> me</span><span class="token operator" style="color:#393A34">!</span><span class="token operator" style="color:#393A34">&lt;</span><span class="token operator" style="color:#393A34">/</span><span class="token plain">button</span><span class="token operator" style="color:#393A34">&gt;</span><br></span></code></pre></div></div>
+<button>Click me!</button>]]></content:encoded>
+            <category>Docusaurus</category>
+        </item>
+        <item>
+            <title><![CDATA[Long Blog Post]]></title>
+            <link>https://your-docusaurus-site.example.com/blog/long-blog-post</link>
+            <guid>https://your-docusaurus-site.example.com/blog/long-blog-post</guid>
+            <pubDate>Wed, 29 May 2019 00:00:00 GMT</pubDate>
+            <description><![CDATA[This is the summary of a very long blog post,]]></description>
+            <content:encoded><![CDATA[<p>This is the summary of a very long blog post,</p>
+<p>Use a <code>&lt;!--</code> <code>truncate</code> <code>--&gt;</code> comment to limit blog post size in the list view.</p>
+<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque elementum dignissim ultricies. Fusce rhoncus ipsum tempor eros aliquam consequat. Lorem ipsum dolor sit amet</p>
+<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque elementum dignissim ultricies. Fusce rhoncus ipsum tempor eros aliquam consequat. Lorem ipsum dolor sit amet</p>
+<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque elementum dignissim ultricies. Fusce rhoncus ipsum tempor eros aliquam consequat. Lorem ipsum dolor sit amet</p>
+<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque elementum dignissim ultricies. Fusce rhoncus ipsum tempor eros aliquam consequat. Lorem ipsum dolor sit amet</p>
+<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque elementum dignissim ultricies. Fusce rhoncus ipsum tempor eros aliquam consequat. Lorem ipsum dolor sit amet</p>
+<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque elementum dignissim ultricies. Fusce rhoncus ipsum tempor eros aliquam consequat. Lorem ipsum dolor sit amet</p>
+<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque elementum dignissim ultricies. Fusce rhoncus ipsum tempor eros aliquam consequat. Lorem ipsum dolor sit amet</p>
+<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque elementum dignissim ultricies. Fusce rhoncus ipsum tempor eros aliquam consequat. Lorem ipsum dolor sit amet</p>
+<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque elementum dignissim ultricies. Fusce rhoncus ipsum tempor eros aliquam consequat. Lorem ipsum dolor sit amet</p>
+<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque elementum dignissim ultricies. Fusce rhoncus ipsum tempor eros aliquam consequat. Lorem ipsum dolor sit amet</p>
+<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque elementum dignissim ultricies. Fusce rhoncus ipsum tempor eros aliquam consequat. Lorem ipsum dolor sit amet</p>
+<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque elementum dignissim ultricies. Fusce rhoncus ipsum tempor eros aliquam consequat. Lorem ipsum dolor sit amet</p>
+<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque elementum dignissim ultricies. Fusce rhoncus ipsum tempor eros aliquam consequat. Lorem ipsum dolor sit amet</p>
+<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque elementum dignissim ultricies. Fusce rhoncus ipsum tempor eros aliquam consequat. Lorem ipsum dolor sit amet</p>
+<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque elementum dignissim ultricies. Fusce rhoncus ipsum tempor eros aliquam consequat. Lorem ipsum dolor sit amet</p>
+<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque elementum dignissim ultricies. Fusce rhoncus ipsum tempor eros aliquam consequat. Lorem ipsum dolor sit amet</p>]]></content:encoded>
+            <category>Hello</category>
+            <category>Docusaurus</category>
+        </item>
+        <item>
+            <title><![CDATA[First Blog Post]]></title>
+            <link>https://your-docusaurus-site.example.com/blog/first-blog-post</link>
+            <guid>https://your-docusaurus-site.example.com/blog/first-blog-post</guid>
+            <pubDate>Tue, 28 May 2019 00:00:00 GMT</pubDate>
+            <description><![CDATA[Lorem ipsum dolor sit amet...]]></description>
+            <content:encoded><![CDATA[<p>Lorem ipsum dolor sit amet...</p>
+<p>...consectetur adipiscing elit. Pellentesque elementum dignissim ultricies. Fusce rhoncus ipsum tempor eros aliquam consequat. Lorem ipsum dolor sit amet</p>]]></content:encoded>
+            <category>Hola</category>
+            <category>Docusaurus</category>
+        </item>
+    </channel>
+</rss>
