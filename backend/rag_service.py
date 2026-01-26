@@ -17,7 +17,13 @@ if os.environ.get("VERCEL") != "1":
     load_dotenv()
 
 import cohere
-import google.generativeai as genai
+try:
+    import google.generativeai as genai
+    GOOGLE_GENAI_AVAILABLE = True
+except ImportError:
+    genai = None
+    GOOGLE_GENAI_AVAILABLE = False
+    print("Google Generative AI not available - will use Cohere for chat generation")
 from qdrant_client import QdrantClient
 import sys
 import os
@@ -39,15 +45,21 @@ GEMINI_API_KEY = os.getenv("GEMINI_API_KEY", "")
 # Log environment variable availability for debugging in serverless
 logger.info(f"Environment variables loaded. QDRANT_URL set: {bool(QDRANT_URL)}, QDRANT_API_KEY set: {bool(QDRANT_API_KEY)}, COHERE_API_KEY set: {bool(COHERE_API_KEY)}")
 
-if not QDRANT_URL:
-    logger.error("QDRANT_URL environment variable not set")
-    raise ValueError("QDRANT_URL environment variable not set")
-if not QDRANT_API_KEY:
-    logger.error("QDRANT_API_KEY environment variable not set")
-    raise ValueError("QDRANT_API_KEY environment variable not set")
-if not COHERE_API_KEY:
-    logger.error("COHERE_API_KEY environment variable not set")
-    raise ValueError("COHERE_API_KEY environment variable not set")
+# For serverless environments, defer validation until actually needed
+# This prevents startup failures in Vercel when environment variables aren't set during initialization
+if os.environ.get("VERCEL") == "1":
+    logger.info("Running in Vercel environment - deferring environment variable validation until first use")
+else:
+    # For local development, validate immediately
+    if not QDRANT_URL:
+        logger.error("QDRANT_URL environment variable not set")
+        raise ValueError("QDRANT_URL environment variable not set")
+    if not QDRANT_API_KEY:
+        logger.error("QDRANT_API_KEY environment variable not set")
+        raise ValueError("QDRANT_API_KEY environment variable not set")
+    if not COHERE_API_KEY:
+        logger.error("COHERE_API_KEY environment variable not set")
+        raise ValueError("COHERE_API_KEY environment variable not set")
 
 
 class ChatRequest(BaseModel):
@@ -73,9 +85,17 @@ class RAGService:
 
     def __init__(self):
         # Initialize clients on demand per instance for serverless
-        self.cohere_client = self._get_cohere_client()
-        self.gemini_model = self._get_gemini_model()
-        self.qdrant = self._get_qdrant_client()
+        # Don't initialize immediately in Vercel to avoid startup errors
+        if os.environ.get("VERCEL") == "1":
+            # In Vercel, defer initialization until first use
+            self.cohere_client = None
+            self.gemini_model = None
+            self.qdrant = None
+        else:
+            # Local development - initialize immediately
+            self.cohere_client = self._get_cohere_client()
+            self.gemini_model = self._get_gemini_model()
+            self.qdrant = self._get_qdrant_client()
 
     @classmethod
     def _get_cohere_client(cls):
@@ -92,7 +112,7 @@ class RAGService:
         if cls._gemini_model is None:
             with cls._lock:
                 if cls._gemini_model is None:
-                    if GEMINI_API_KEY and len(GEMINI_API_KEY) > 10:
+                    if GEMINI_API_KEY and len(GEMINI_API_KEY) > 10 and GOOGLE_GENAI_AVAILABLE:
                         try:
                             genai.configure(api_key=GEMINI_API_KEY)
                             cls._gemini_model = genai.GenerativeModel("gemini-2.5-flash")
@@ -101,7 +121,10 @@ class RAGService:
                             logger.warning(f"Gemini initialization failed, will use Cohere for chat: {e}")
                             cls._gemini_model = None
                     else:
-                        logger.info("No Gemini API key found, will use Cohere for chat generation")
+                        if not GOOGLE_GENAI_AVAILABLE:
+                            logger.info("Google Generative AI not available, will use Cohere for chat generation")
+                        else:
+                            logger.info("No Gemini API key found, will use Cohere for chat generation")
         return cls._gemini_model
 
     @classmethod
@@ -181,9 +204,29 @@ class RAGService:
         return DEFAULT_COLLECTION_NAME
 
 
+    def _ensure_clients_initialized(self):
+        """Ensure clients are initialized, especially for Vercel environment."""
+        if self.cohere_client is None:
+            self.cohere_client = self._get_cohere_client()
+        if self.gemini_model is None:
+            self.gemini_model = self._get_gemini_model()
+        if self.qdrant is None:
+            self.qdrant = self._get_qdrant_client()
+
+        # Validate required environment variables are available
+        if not os.getenv("QDRANT_URL"):
+            raise ValueError("QDRANT_URL environment variable not set")
+        if not os.getenv("QDRANT_API_KEY"):
+            raise ValueError("QDRANT_API_KEY environment variable not set")
+        if not os.getenv("COHERE_API_KEY"):
+            raise ValueError("COHERE_API_KEY environment variable not set")
+
     def embed_text(self, text: str) -> List[float]:
         """Generate embeddings using Cohere's embedding API."""
         try:
+            # Ensure clients are initialized
+            self._ensure_clients_initialized()
+
             response = self.cohere_client.embed(
                 texts=[text],
                 model="embed-english-v3.0",  # Use instance variable
@@ -200,6 +243,9 @@ class RAGService:
         Retrieve relevant documents from Qdrant.
         Automatically falls back to valid collection if requested one doesn't exist.
         """
+        # Ensure clients are initialized
+        self._ensure_clients_initialized()
+
         if self.qdrant is None:
             logger.error("Qdrant client is not initialized. Cannot retrieve documents.")
             return []

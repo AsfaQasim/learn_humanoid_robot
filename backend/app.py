@@ -110,7 +110,7 @@ async def chat_endpoint(request: Request):
         except Exception as init_error:
             logger.error(f"Error initializing RAG Service: {init_error}")
             logger.error(f"Environment variables available: QDRANT_URL set: {bool(os.getenv('QDRANT_URL'))}, QDRANT_API_KEY set: {bool(os.getenv('QDRANT_API_KEY'))}, COHERE_API_KEY set: {bool(os.getenv('COHERE_API_KEY'))}")
-            raise HTTPException(status_code=500, detail="RAG Service initialization failed")
+            raise HTTPException(status_code=500, detail=f"RAG Service initialization failed: {str(init_error)}")
 
         # Process the user query using your RAG service with the specified collection
         result = rag_service.query(user_query, top_k=5, collection_name=collection_name)
