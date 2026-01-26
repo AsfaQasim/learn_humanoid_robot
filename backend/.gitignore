@@ -64,3 +64,5 @@ Thumbs.db
 
 # Documentation
 docs/_build/
+.vercel
+.env*.local

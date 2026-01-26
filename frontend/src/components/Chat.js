@@ -56,10 +56,12 @@ const Chat = () => {
                     query_text: input,
                     collection_name: "my_embed"
                 }),
-
             });
 
-            if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+            if (!response.ok) {
+                const errorData = await response.text();
+                throw new Error(`HTTP error! status: ${response.status}, message: ${errorData}`);
+            }
 
             const data = await response.json();
 
@@ -72,7 +74,14 @@ const Chat = () => {
             };
             setMessages(prev => [...prev, botMessage]);
         } catch (e) {
-            setError('Failed to fetch response from chatbot. Please try again.');
+            console.error('Chat API Error:', e);
+            if (e.message.includes('404')) {
+                setError('Chat endpoint not found. Make sure the backend server is running on port 8000. Run: "cd backend && python run_server.py"');
+            } else if (e.message.includes('fetch')) {
+                setError('Unable to connect to the backend server. Please ensure the backend is running and accessible.');
+            } else {
+                setError(`Failed to fetch response from chatbot: ${e.message}`);
+            }
             console.error(e);
         } finally {
             setLoading(false);
@@ -89,10 +98,20 @@ const Chat = () => {
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ response_id: responseId, feedback }),
             });
-            if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+            if (!response.ok) {
+                const errorData = await response.text();
+                throw new Error(`HTTP error! status: ${response.status}, message: ${errorData}`);
+            }
             alert('Feedback submitted!');
         } catch (e) {
-            alert('Failed to submit feedback.');
+            console.error('Feedback API Error:', e);
+            if (e.message.includes('404')) {
+                alert('Feedback endpoint not found. Make sure the backend server is running on port 8000. Run: "cd backend && python run_server.py"');
+            } else if (e.message.includes('fetch')) {
+                alert('Unable to connect to the backend server for feedback submission.');
+            } else {
+                alert(`Failed to submit feedback: ${e.message}`);
+            }
             console.error(e);
         }
     };

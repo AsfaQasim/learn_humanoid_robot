@@ -10,7 +10,6 @@ dependencies = [
     "cohere>=4.9.0",
     "qdrant-client>=1.8.0",
     "python-dotenv>=1.0.0",
-    "transformers>=4.35.0",
     "pytest>=7.4.0"
 ]
 
