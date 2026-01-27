@@ -47,13 +47,24 @@ app.add_middleware(
     allow_origins=[
         "http://localhost:3000",  # React development server
         "http://localhost:3001",  # Alternative React dev server
+        "http://localhost:8000",  # Same origin for direct access
         "https://*.vercel.app",   # Vercel deployments
         os.getenv("FRONTEND_URL", ""),  # Environment-specific URL
+        "http://localhost:*",     # Allow any localhost port during development
+        "https://localhost:*",    # Allow HTTPS localhost during development
+        "*"  # Allow all origins during development - remove in production
     ],
     allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
+    allow_methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"],  # Explicitly specify methods
+    allow_headers=["*"],  # Allow all headers
+    # Additional CORS options for better compatibility
+    allow_origin_regex=r"https?://(?:.+\.)?localhost(?::\d+)?",  # Regex for localhost variations
 )
+
+@app.options("/chat")
+async def chat_options(request: Request):
+    """Handle preflight OPTIONS requests for CORS"""
+    return {"status": "OK"}
 
 @app.post("/chat")
 async def chat_endpoint(request: Request):
@@ -104,13 +115,31 @@ async def chat_endpoint(request: Request):
         logger.info(f"Processing query: {user_query[:100]}...")
         logger.info(f"Using collection: {collection_name}")
 
+        # Check if required environment variables are set
+        if not os.getenv("QDRANT_URL") or not os.getenv("QDRANT_API_KEY") or not os.getenv("COHERE_API_KEY"):
+            # Return a helpful error message if environment variables are not set
+            return {
+                "response_id": str(uuid.uuid4()),
+                "answer": "The chatbot is not properly configured. Please set the required environment variables (QDRANT_URL, QDRANT_API_KEY, COHERE_API_KEY) in the backend/.env file.",
+                "sources": [],
+                "query": user_query,
+                "collection_used": collection_name
+            }
+
         # Initialize RAG service for each request in serverless environment
         try:
             rag_service = RAGService()
         except Exception as init_error:
             logger.error(f"Error initializing RAG Service: {init_error}")
             logger.error(f"Environment variables available: QDRANT_URL set: {bool(os.getenv('QDRANT_URL'))}, QDRANT_API_KEY set: {bool(os.getenv('QDRANT_API_KEY'))}, COHERE_API_KEY set: {bool(os.getenv('COHERE_API_KEY'))}")
-            raise HTTPException(status_code=500, detail=f"RAG Service initialization failed: {str(init_error)}")
+            # Return a more user-friendly error message instead of throwing an exception
+            return {
+                "response_id": str(uuid.uuid4()),
+                "answer": f"The chatbot service is temporarily unavailable: {str(init_error)}",
+                "sources": [],
+                "query": user_query,
+                "collection_used": collection_name
+            }
 
         # Process the user query using your RAG service with the specified collection
         result = rag_service.query(user_query, top_k=5, collection_name=collection_name)
@@ -132,7 +161,14 @@ async def chat_endpoint(request: Request):
     except Exception as e:
         logger.error(f"Error processing request: {str(e)}")
         logger.error(f"Full traceback: ", exc_info=True)  # Log full traceback for debugging
-        raise HTTPException(status_code=500, detail=f"Error processing request: {str(e)}")
+        # Return a more user-friendly error message instead of throwing an exception
+        return {
+            "response_id": str(uuid.uuid4()),
+            "answer": f"An error occurred while processing your request: {str(e)}",
+            "sources": [],
+            "query": user_query,
+            "collection_used": raw_body.get("collection_name", "document_embeddings")
+        }
 
 @app.post("/feedback")
 async def feedback_endpoint(feedback: FeedbackRequest):

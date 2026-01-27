@@ -1,16 +1,41 @@
 import React, { useState, useEffect, useRef } from 'react';
 import './Chat.css';
 
-// Change this to true if testing locally
-// Backend URLs
+// Backend URLs - using window object for client-side environment detection
 const LOCAL_BACKEND = "http://localhost:8000";
+const PROD_BACKEND = "https://learn-humanoid-robot-mz3d.vercel.app";
 
-// Prefer using same-origin API on Vercel (see vercel.json routes). Fallback to localhost in dev.
-const BACKEND_URL =
-    process.env.NODE_ENV === "development"
-        ? LOCAL_BACKEND
-        : "/api";
+// Determine backend URL based on environment and availability
+let BACKEND_URL;
+if (typeof window !== 'undefined') {
+    // Client-side (browser)
+    // Check if we're in development mode by checking for webpack dev server
+    const isDev = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+    BACKEND_URL = isDev ? LOCAL_BACKEND : PROD_BACKEND;
+} else {
+    // Server-side (if applicable)
+    BACKEND_URL = LOCAL_BACKEND; // Default to local during build
+}
 
+console.log("Backend URL:", BACKEND_URL); // Debug log
+
+
+// Helper function to get authentication headers
+const getAuthHeaders = () => {
+    // Check for various possible authentication tokens
+    const token = localStorage.getItem('authToken') ||
+                  sessionStorage.getItem('authToken') ||
+                  localStorage.getItem('access_token') ||
+                  sessionStorage.getItem('access_token');
+
+    if (token) {
+        return {
+            'Authorization': `Bearer ${token}`,
+            'X-Auth-Token': token
+        };
+    }
+    return {};
+};
 
 const Chat = () => {
     const [messages, setMessages] = useState([]);
@@ -48,22 +73,74 @@ const Chat = () => {
         setError(null);
 
         try {
-            const response = await fetch(`${BACKEND_URL}/chat`, {
+            // Prepare request configuration
+            const requestConfig = {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
+                headers: {
+                    'Content-Type': 'application/json',
+                    // Add authentication header if available
+                    ...getAuthHeaders(),
+                    // Additional headers that might help with CORS
+                    'Accept': 'application/json',
+                },
                 body: JSON.stringify({
                     session_id: "123",
                     query_text: input,
                     collection_name: "my_embed"
                 }),
+            };
+
+            console.log(`Attempting to connect to: ${BACKEND_URL}/chat`);
+            console.log('Request config:', requestConfig);
+
+            // Make the API call with timeout
+            // Increase timeout to handle potential delays in API response
+            const controller = new AbortController();
+            const timeoutId = setTimeout(() => {
+                console.log('Request timeout after 60 seconds');
+                controller.abort();
+            }, 60000); // 60 second timeout
+
+            const response = await fetch(`${BACKEND_URL}/chat`, {
+                ...requestConfig,
+                signal: controller.signal
             });
+
+            clearTimeout(timeoutId);
+
+            console.log(`Response status: ${response.status}`);
+            console.log(`Response OK: ${response.ok}`);
 
             if (!response.ok) {
                 const errorData = await response.text();
+                console.error('Server responded with error:', errorData);
+
+                // Handle different status codes appropriately
+                if (response.status === 401) {
+                    setError('Unauthorized: Please check your authentication credentials.');
+                } else if (response.status === 403) {
+                    setError('Forbidden: You do not have permission to access this resource.');
+                } else if (response.status === 404) {
+                    setError('Endpoint not found. Make sure the backend server is running and the API endpoint exists.');
+                } else if (response.status >= 500) {
+                    setError(`Server error (${response.status}): The backend server encountered an error.`);
+                } else {
+                    setError(`HTTP error! status: ${response.status}, message: ${errorData}`);
+                }
+
                 throw new Error(`HTTP error! status: ${response.status}, message: ${errorData}`);
             }
 
+            // Check if response is valid JSON
+            const contentType = response.headers.get('content-type');
+            if (!contentType || !contentType.includes('application/json')) {
+                const textResponse = await response.text();
+                console.warn('Non-JSON response received:', textResponse);
+                throw new Error(`Expected JSON response but got: ${textResponse}`);
+            }
+
             const data = await response.json();
+            console.log('Response data:', data);
 
             const botMessage = {
                 id: Date.now() + 1,
@@ -75,14 +152,30 @@ const Chat = () => {
             setMessages(prev => [...prev, botMessage]);
         } catch (e) {
             console.error('Chat API Error:', e);
-            if (e.message.includes('404')) {
+            console.error('Detailed error info:', {
+                message: e.message,
+                name: e.name,
+                stack: e.stack,
+                isAborted: e.name === 'AbortError',
+                isNetworkError: e.name === 'TypeError' && e.message.includes('fetch')
+            });
+
+            // Handle different types of errors
+            if (e.name === 'AbortError') {
+                setError('Request timed out. The server took too long to respond. This might be due to missing API keys or slow processing.');
+            } else if (e.message.includes('404')) {
                 setError('Chat endpoint not found. Make sure the backend server is running on port 8000. Run: "cd backend && python run_server.py"');
             } else if (e.message.includes('fetch')) {
-                setError('Unable to connect to the backend server. Please ensure the backend is running and accessible.');
+                if (e.message.includes('Failed to fetch')) {
+                    setError('Unable to connect to the backend server. Possible causes:\n- Backend server is not running\n- Network connectivity issue\n- CORS policy violation\n- SSL certificate issue\n\nCheck browser console for more details.');
+                } else {
+                    setError('Network error occurred while connecting to the backend server. Check browser console for more details.');
+                }
+            } else if (e.message.includes('JSON')) {
+                setError('Invalid response format received from the server. The server may not be returning valid JSON.');
             } else {
                 setError(`Failed to fetch response from chatbot: ${e.message}`);
             }
-            console.error(e);
         } finally {
             setLoading(false);
             setSelectedText('');

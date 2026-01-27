@@ -1,8 +1,51 @@
-import React, { useState } from 'react';
+import React, { useState, Component } from 'react';
 import Layout from '@theme/Layout';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import styles from './index.module.css';
 import Spline from '@splinetool/react-spline';
+
+// Error Boundary Component for Spline
+class SplineWithErrorBoundary extends Component {
+  constructor(props) {
+    super(props);
+    this.state = { hasError: false };
+  }
+
+  static getDerivedStateFromError(error) {
+    return { hasError: true };
+  }
+
+  componentDidCatch(error, errorInfo) {
+    console.error('Spline component error:', error, errorInfo);
+  }
+
+  render() {
+    if (this.state.hasError) {
+      // Fallback UI when Spline fails to load
+      return (
+        <div style={{
+          width: '100%',
+          height: '100%',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          backgroundColor: '#f0f0f0',
+          color: '#666',
+          fontSize: '16px',
+        }}>
+          <div style={{ textAlign: 'center' }}>
+            <div style={{ fontSize: '48px', marginBottom: '20px' }}>🤖</div>
+            <p>3D Model Loading...</p>
+            <p style={{ fontSize: '14px', marginTop: '10px' }}>(Check network connection)</p>
+          </div>
+        </div>
+      );
+    }
+
+    return <Spline {...this.props} />;
+  }
+}
+
 //  loader
 const RobotLoader = () => (
   <div style={{
@@ -59,7 +102,7 @@ export default function Home() {
           zIndex: 1,
         }}>
           {loading && <RobotLoader />}
-          <Spline
+          <SplineWithErrorBoundary
             scene="https://prod.spline.design/Q5uh6cPZMc0R5C17/scene.splinecode"
             onLoad={() => setLoading(false)}
           />
