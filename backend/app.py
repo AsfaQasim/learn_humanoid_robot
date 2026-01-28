@@ -55,7 +55,7 @@ app.add_middleware(
         "*"  # Allow all origins during development - remove in production
     ],
     allow_credentials=True,
-    allow_methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"],  # Explicitly specify methods
+    allow_methods=["*"],  # Allow all methods (GET, POST, OPTIONS, etc.)
     allow_headers=["*"],  # Allow all headers
     # Additional CORS options for better compatibility
     allow_origin_regex=r"https?://(?:.+\.)?localhost(?::\d+)?",  # Regex for localhost variations
@@ -64,7 +64,8 @@ app.add_middleware(
 @app.options("/chat")
 async def chat_options(request: Request):
     """Handle preflight OPTIONS requests for CORS"""
-    return {"status": "OK"}
+    from fastapi.responses import Response
+    return Response(status_code=200)
 
 @app.post("/chat")
 async def chat_endpoint(request: Request):
@@ -169,6 +170,12 @@ async def chat_endpoint(request: Request):
             "query": user_query,
             "collection_used": raw_body.get("collection_name", "document_embeddings")
         }
+
+@app.options("/feedback")
+async def feedback_options(request: Request):
+    """Handle preflight OPTIONS requests for feedback endpoint"""
+    from fastapi.responses import Response
+    return Response(status_code=200)
 
 @app.post("/feedback")
 async def feedback_endpoint(feedback: FeedbackRequest):

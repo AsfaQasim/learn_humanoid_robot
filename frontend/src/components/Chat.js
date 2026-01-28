@@ -3,7 +3,6 @@ import './Chat.css';
 
 // Backend URLs - using window object for client-side environment detection
 const LOCAL_BACKEND = "http://localhost:8000";
-const PROD_BACKEND = "https://learn-humanoid-robot-mz3d.vercel.app";
 
 // Determine backend URL based on environment and availability
 let BACKEND_URL;
@@ -11,7 +10,12 @@ if (typeof window !== 'undefined') {
     // Client-side (browser)
     // Check if we're in development mode by checking for webpack dev server
     const isDev = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
-    BACKEND_URL = isDev ? LOCAL_BACKEND : PROD_BACKEND;
+    if (isDev) {
+        BACKEND_URL = LOCAL_BACKEND;
+    } else {
+        // For production on Vercel, use relative path to hit the /api endpoint on the same domain
+        BACKEND_URL = "";
+    }
 } else {
     // Server-side (if applicable)
     BACKEND_URL = LOCAL_BACKEND; // Default to local during build
@@ -90,7 +94,9 @@ const Chat = () => {
                 }),
             };
 
-            console.log(`Attempting to connect to: ${BACKEND_URL}/chat`);
+            // Construct the correct API endpoint URL
+            let apiUrl = BACKEND_URL ? `${BACKEND_URL}/chat` : '/api/chat';
+            console.log(`Attempting to connect to: ${apiUrl}`);
             console.log('Request config:', requestConfig);
 
             // Make the API call with timeout
@@ -101,7 +107,7 @@ const Chat = () => {
                 controller.abort();
             }, 60000); // 60 second timeout
 
-            const response = await fetch(`${BACKEND_URL}/chat`, {
+            const response = await fetch(apiUrl, {
                 ...requestConfig,
                 signal: controller.signal
             });
@@ -186,7 +192,9 @@ const Chat = () => {
 
     const handleFeedback = async (responseId, feedback) => {
         try {
-            const response = await fetch(`${BACKEND_URL}/feedback`, {
+            // Construct the correct API endpoint URL for feedback
+            let feedbackApiUrl = BACKEND_URL ? `${BACKEND_URL}/feedback` : '/api/feedback';
+            const response = await fetch(feedbackApiUrl, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ response_id: responseId, feedback }),
