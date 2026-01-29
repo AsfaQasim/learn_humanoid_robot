@@ -9,6 +9,9 @@ import {themes as prismThemes} from 'prism-react-renderer';
 // This runs in Node.js - Don't use client-side code here (browser APIs, JSX...)
 
 /** @type {import('@docusaurus/types').Config} */
+
+// Define environment variables for the frontend
+const BACKEND_URL = process.env.BACKEND_URL || '';
 const config = {
   title: 'Physical AI & Humanoid Robotics Textbook',
   tagline: 'Learning the fundamentals of AI-powered humanoid robotics',

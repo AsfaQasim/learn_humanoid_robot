@@ -1,7 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
 import './Chat.css';
+import API_CONFIG from './apiConfig';
 
-// Backend URLs - using window object for client-side environment detection
+// Backend URLs - using environment variable for production deployments
 const LOCAL_BACKEND = "http://localhost:8000";
 
 // Determine backend URL based on environment and availability
@@ -13,12 +14,12 @@ if (typeof window !== 'undefined') {
     if (isDev) {
         BACKEND_URL = LOCAL_BACKEND;
     } else {
-        // For production on Vercel, use relative path to hit the /api endpoint on the same domain
-        BACKEND_URL = "";
+        // For production, use the API config which can be set via environment variables
+        BACKEND_URL = API_CONFIG.BACKEND_URL || "";
     }
 } else {
     // Server-side (if applicable)
-    BACKEND_URL = LOCAL_BACKEND; // Default to local during build
+    BACKEND_URL = API_CONFIG.BACKEND_URL || LOCAL_BACKEND;
 }
 
 console.log("Backend URL:", BACKEND_URL); // Debug log
