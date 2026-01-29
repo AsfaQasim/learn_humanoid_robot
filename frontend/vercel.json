@@ -8,5 +8,10 @@
         "distDir": "build"
       }
     }
-  ]
+  ],
+  "functions": {
+    "api/**/*.js": {
+      "runtime": "vercel-node@2.1.0"
+    }
+  }
 }
